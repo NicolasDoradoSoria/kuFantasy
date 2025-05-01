@@ -13,6 +13,7 @@ class Individual : Identifier {
   var level: Int = 1
   var totalCapacity: Int = 0
   var balance: Double = 0.0
+  lateinit var currentLocacion: Locacion
   override fun validate() {
     TODO("Not yet implemented")
   }
