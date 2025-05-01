@@ -1,14 +1,12 @@
 package ar.edu.unsam.phm.models
 
+class House : Identifier, Locacion {
 
-class Territory : Identifier, Locacion {
   override var id: Long = -1
   override lateinit var name: String
-  var subLocations: List<Locacion> = emptyList()
-  lateinit var history: String
+  var Individuals: List<Individual> = emptyList()
+  var Items: List<Item> = emptyList()
   lateinit var image: String
-  var houses : List<House> = emptyList()
-
   override fun validate() {
     TODO("Not yet implemented")
   }
