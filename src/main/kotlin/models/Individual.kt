@@ -1,6 +1,6 @@
 package ar.edu.unsam.phm.models
 
-class Individual : Identifier {
+open class Individual : Identifier {
 
   override var id: Long = -1
   lateinit var name: String
