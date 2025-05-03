@@ -14,7 +14,6 @@ class Individual : Identifier {
   var totalCapacity: Int = 0
   var balance: Double = 0.0
   lateinit var currentLocacion: Locacion
-  var items: MutableSet<Item> = mutableSetOf()
   override fun validate() {
     TODO("Not yet implemented")
   }

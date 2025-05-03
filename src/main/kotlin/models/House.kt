@@ -1,6 +1,6 @@
 package ar.edu.unsam.phm.models
 
-class House : Identifier, Locacion {
+class House : Locacion {
 
   override var id: Long = -1
   override lateinit var name: String
