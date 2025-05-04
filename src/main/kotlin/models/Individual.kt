@@ -1,5 +1,7 @@
 package ar.edu.unsam.phm.models
 
+import ar.edu.unsam.phm.utils.IndividualRole
+
 open class Individual : Identifier {
 
   override var id: Long = -1
@@ -14,7 +16,9 @@ open class Individual : Identifier {
   var totalCapacity: Int = 0
   var balance: Double = 0.0
   lateinit var currentLocacion: Locacion
+  lateinit var role: IndividualRole
   var inventory: List<InventorySlot> = emptyList()
+
   override fun validate() {
     TODO("Not yet implemented")
   }
