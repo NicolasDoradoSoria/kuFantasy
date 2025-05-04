@@ -12,4 +12,5 @@ class GameWorld : Identifier {
     require(territories.isNotEmpty()) { "Al menos un territorio es necesario" }
   }
 
+
 }
