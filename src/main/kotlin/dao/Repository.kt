@@ -1,6 +1,7 @@
 package ar.edu.unsam.phm.dao
 
 import ar.edu.unsam.phm.models.Identifier
+import ar.edu.unsam.phm.utils.exceptions.BusinessException
 
 
 abstract class Repository<T : Identifier> {
@@ -8,7 +9,7 @@ abstract class Repository<T : Identifier> {
   private var currentId: Long = 0
 
   fun create(element: T) {
-    //throwErrorIfIdIsAssigned(element)
+    throwErrorIfIdIsAssigned(element)
     element.validate()
     currentId++
     element.id = currentId
@@ -31,9 +32,18 @@ abstract class Repository<T : Identifier> {
   }
 
   fun getById(id : Long) : T? {
-    //throwErrorIfIdDoesNotExist(id)
+    throwErrorIfIdDoesNotExist(id)
     return elements.find { it.id == id }
   }
 
+  private fun throwErrorIfIdDoesNotExist(id : Long){
+    if(elements.all{it.id != id})
+      throw BusinessException("No existe un elemento asociado al id: $id")
+  }
+
+  private fun throwErrorIfIdIsAssigned(element: T){
+    if(!element.isNew())
+      throw BusinessException("Ya existe un elemento con el id: ${element.id}.")
+  }
 
 }
