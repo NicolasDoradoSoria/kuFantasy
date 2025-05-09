@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.*
 class LoginController (val loginService: LoginService) {
     @PostMapping("/")
     fun loginCustomer(@RequestBody loginDTO: LoginDTO) =
-        loginService.loginUser(loginDTO)
+        loginService.login(loginDTO)
 
 }
