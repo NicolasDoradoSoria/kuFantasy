@@ -10,6 +10,17 @@ class Territory : Locacion {
 
 
   override fun validate() {
-    TODO("Not yet implemented")
+    if (name.isBlank()) {
+      throw IllegalArgumentException("Name cannot be blank")
+    }
+    if (subLocations.isEmpty()) {
+      throw IllegalArgumentException("Territory must have at least one sub-location")
+    }
+    if (history.isBlank()) {
+      throw IllegalArgumentException("History cannot be blank")
+    }
+    if (image.isBlank()) {
+      throw IllegalArgumentException("Image cannot be blank")
+    }
   }
 }
