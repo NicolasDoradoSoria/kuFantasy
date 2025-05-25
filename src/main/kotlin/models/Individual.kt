@@ -1,6 +1,7 @@
 package ar.edu.unsam.phm.models
 
 import ar.edu.unsam.phm.utils.IndividualRole
+import ar.edu.unsam.phm.utils.UserType
 
 open class Individual : Identifier {
 
@@ -15,8 +16,9 @@ open class Individual : Identifier {
   var level: Int = 1
   var totalCapacity: Int = 0
   var balance: Double = 0.0
-  lateinit var currentLocacion: Locacion
+  lateinit var currentLocacion: Territory
   lateinit var role: IndividualRole
+  lateinit var type: UserType
   var inventory: List<InventorySlot> = emptyList()
 
   override fun validate() {
