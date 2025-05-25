@@ -55,18 +55,54 @@ class DataInitializer : InitializingBean {
     name = "Bosque Encantado"
     history = "Un bosque misterioso lleno de magia."
     image = "bosque.jpg"
+    subLocations = listOf(
+      Territory().apply {
+        name = "Cueva Secreta"
+        history = "Una cueva oculta llena de tesoros."
+        image = "cueva.jpg"
+      },
+      Territory().apply {
+        name = "Lago Místico"
+        history = "Un lago con propiedades curativas."
+        image = "lago.jpg"
+      }
+    )
   }
 
   val torre = Territory().apply {
     name = "Torre Arcana"
     history = "Una antigua torre de hechicería prohibida."
     image = "torre.jpg"
+    subLocations = listOf(
+      Territory().apply {
+        name = "Sala de Hechizos"
+        history = "Una sala llena de libros de magia."
+        image = "sala.jpg"
+      },
+      Territory().apply {
+        name = "Observatorio"
+        history = "Un lugar para observar las estrellas."
+        image = "observatorio.jpg"
+      }
+    )
   }
 
   val desierto = Territory().apply {
     name = "Desierto del Olvido"
     history = "Nadie recuerda qué ocurrió aquí..."
     image = "desierto.jpg"
+    subLocations = listOf(
+      Territory().apply {
+        name = "Oasis Perdido"
+        history = "Un oasis escondido en el desierto."
+        image = "oasis.jpg"
+      },
+      Territory().apply {
+        name = "Ruinas Antiguas"
+        history = "Ruinas de una civilización olvidada."
+        image = "ruinas.jpg"
+      }
+    )
   }
 
 
