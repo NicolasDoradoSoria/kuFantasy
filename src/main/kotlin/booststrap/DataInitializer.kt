@@ -1,12 +1,10 @@
 package ar.edu.unsam.phm.booststrap
 
 import ar.edu.unsam.phm.dao.ItemRepository
+import ar.edu.unsam.phm.dao.StoreRepository
 import ar.edu.unsam.phm.dao.TerritoryRepository
 import ar.edu.unsam.phm.dao.UserRepository
-import ar.edu.unsam.phm.models.InventorySlot
-import ar.edu.unsam.phm.models.Item
-import ar.edu.unsam.phm.models.Territory
-import ar.edu.unsam.phm.models.User
+import ar.edu.unsam.phm.models.*
 import ar.edu.unsam.phm.utils.IndividualRole
 import ar.edu.unsam.phm.utils.UserType
 import org.springframework.beans.factory.InitializingBean
@@ -24,6 +22,11 @@ class DataInitializer : InitializingBean {
 
   @Autowired
   private lateinit var itemRepository: ItemRepository
+
+  @Autowired
+  private lateinit var storeRepository: StoreRepository
+
+
   //***********************
   // ITEM
   //***********************
@@ -68,7 +71,6 @@ class DataInitializer : InitializingBean {
       }
     )
   }
-
   val torre = Territory().apply {
     name = "Torre Arcana"
     history = "Una antigua torre de hechicería prohibida."
@@ -104,6 +106,24 @@ class DataInitializer : InitializingBean {
       }
     )
   }
+
+  //***********************
+  // Store
+  //***********************
+
+  val tienda = Store().apply {
+    name = "Tienda Mágica"
+    territory = bosque
+  }
+  val tienda2 = Store().apply {
+    name = "Tienda Mágica"
+    territory = torre
+  }
+  val tienda3 = Store().apply {
+    name = "Tienda Mágica"
+    territory = desierto
+  }
+
 
 
 
@@ -218,9 +238,19 @@ class DataInitializer : InitializingBean {
     }
     println("territorios agregados")
   }
+
+  fun createStores() {
+    storeRepository.apply {
+      create(tienda)
+      create(tienda2)
+      create(tienda3)
+    }
+    println("tiendas agregadas")
+  }
   override fun afterPropertiesSet() {
     this.createUsers()
     this.createTerritories()
+    this.createStores()
     this.createItems()
   }
 }
