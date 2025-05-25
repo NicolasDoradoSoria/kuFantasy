@@ -6,7 +6,12 @@ class Store: Locacion {
   lateinit var territory: Territory
 
   override fun validate() {
-    TODO("Not yet implemented")
+    if (name.isEmpty()) {
+      throw IllegalArgumentException("El nombre de la tienda no puede estar vacío")
+    }
+    if (territory.id == -1L) {
+      throw IllegalArgumentException("La tienda debe pertenecer a un territorio")
+    }
   }
 
 

@@ -8,6 +8,17 @@ class House : Locacion {
   var iventory: List<InventorySlot> = emptyList()
   lateinit var image: String
   override fun validate() {
-    TODO("Not yet implemented")
+    if (name.isBlank()) {
+      throw IllegalArgumentException("Name cannot be blank")
+    }
+    if (Individuals.isEmpty()) {
+      throw IllegalArgumentException("House must have at least one individual")
+    }
+    if (iventory.isEmpty()) {
+      throw IllegalArgumentException("House must have at least one inventory slot")
+    }
+    if (image.isBlank()) {
+      throw IllegalArgumentException("Image cannot be blank")
+    }
   }
 }
