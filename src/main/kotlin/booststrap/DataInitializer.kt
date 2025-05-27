@@ -1,9 +1,6 @@
 package ar.edu.unsam.phm.booststrap
 
-import ar.edu.unsam.phm.dao.ItemRepository
-import ar.edu.unsam.phm.dao.StoreRepository
-import ar.edu.unsam.phm.dao.TerritoryRepository
-import ar.edu.unsam.phm.dao.UserRepository
+import ar.edu.unsam.phm.dao.*
 import ar.edu.unsam.phm.models.*
 import ar.edu.unsam.phm.utils.IndividualRole
 import ar.edu.unsam.phm.utils.UserType
@@ -16,6 +13,9 @@ class DataInitializer : InitializingBean {
 
   @Autowired
   private lateinit var userRepository: UserRepository
+
+  @Autowired
+  private lateinit var individualRepository: IndividualRepository
 
   @Autowired
   private lateinit var territoryRepository: TerritoryRepository
@@ -223,11 +223,20 @@ class DataInitializer : InitializingBean {
   fun createUsers() {
     userRepository.apply {
       create(valen)
+
+    }
+
+    println("usuarios agregados")
+  }
+
+  fun createIndividuals() {
+    individualRepository.apply {
+
       create(cris)
       create(juana)
       create(mati)
     }
-    println("usuarios agregados")
+    println("individuos agregados")
   }
 
   fun createTerritories() {
@@ -248,8 +257,9 @@ class DataInitializer : InitializingBean {
     println("tiendas agregadas")
   }
   override fun afterPropertiesSet() {
-    this.createUsers()
     this.createTerritories()
+    this.createUsers()
+    this.createIndividuals()
     this.createStores()
     this.createItems()
   }
