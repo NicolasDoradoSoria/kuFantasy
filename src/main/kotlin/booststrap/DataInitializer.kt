@@ -26,6 +26,8 @@ class DataInitializer : InitializingBean {
   @Autowired
   private lateinit var storeRepository: StoreRepository
 
+  @Autowired
+  private lateinit var houseRepository : HouseRepository
 
   //***********************
   // ITEM
@@ -48,8 +50,69 @@ class DataInitializer : InitializingBean {
     defense = 20
     image = "escudo.jpg"
   }
+  //***********************
+  // INVENTORY SLOTS
+  //***********************
+  val bowSlot = InventorySlot().apply {
+    item = Item().apply {
+      name = "Arco Élfico"
+      description = "Arco preciso y liviano"
+      weight = 5
+      price = 120.0
+      attack = 15
+      image = "arco.jpg"
+    }
+    quantity = 1
+  }
+
+  val ringSlot = InventorySlot().apply {
+    item = Item().apply {
+      name = "Anillo de Invisibilidad"
+      description = "Te hace invisible por unos segundos"
+      weight = 1
+      price = 300.0
+      image = "anillo.jpg"
+    }
+    quantity = 1
+  }
+
+  val pantrySlot = InventorySlot().apply {
+    item = Item().apply {
+      name = "Pan de la Comarca"
+      description = "Muy nutritivo y sabroso"
+      weight = 2
+      price = 5.0
+      image = "pan.jpg"
+    }
+    quantity = 10
+  }
 
 
+  //***********************
+  // Store
+  //***********************
+
+  val tienda = Store().apply {
+    name = "Armeria"
+    image = "legolas_house.jpg"
+
+  }
+  val tienda2 = Store().apply {
+    name = "Carpinteria"
+    image = "legolas_house.jpg"
+  }
+  val tienda3 = Store().apply {
+    name = "Alquimia"
+    image = "legolas_house.jpg"
+  }
+  val tienda4 = Store().apply {
+    name = "Herreria"
+    image = "legolas_house.jpg"
+  }
+  val tienda5 = Store().apply {
+    name = "Posada"
+    image = "legolas_house.jpg"
+  }
   //***********************
   // TERRITORY
   //***********************
@@ -58,74 +121,19 @@ class DataInitializer : InitializingBean {
     name = "Bosque Encantado"
     history = "Un bosque misterioso lleno de magia."
     image = "bosque.jpg"
-    subLocations = listOf(
-      Territory().apply {
-        name = "Cueva Secreta"
-        history = "Una cueva oculta llena de tesoros."
-        image = "cueva.jpg"
-      },
-      Territory().apply {
-        name = "Lago Místico"
-        history = "Un lago con propiedades curativas."
-        image = "lago.jpg"
-      }
-    )
   }
+
   val torre = Territory().apply {
     name = "Torre Arcana"
     history = "Una antigua torre de hechicería prohibida."
     image = "torre.jpg"
-    subLocations = listOf(
-      Territory().apply {
-        name = "Sala de Hechizos"
-        history = "Una sala llena de libros de magia."
-        image = "sala.jpg"
-      },
-      Territory().apply {
-        name = "Observatorio"
-        history = "Un lugar para observar las estrellas."
-        image = "observatorio.jpg"
-      }
-    )
   }
 
   val desierto = Territory().apply {
     name = "Desierto del Olvido"
     history = "Nadie recuerda qué ocurrió aquí..."
     image = "desierto.jpg"
-    subLocations = listOf(
-      Territory().apply {
-        name = "Oasis Perdido"
-        history = "Un oasis escondido en el desierto."
-        image = "oasis.jpg"
-      },
-      Territory().apply {
-        name = "Ruinas Antiguas"
-        history = "Ruinas de una civilización olvidada."
-        image = "ruinas.jpg"
-      }
-    )
   }
-
-  //***********************
-  // Store
-  //***********************
-
-  val tienda = Store().apply {
-    name = "Tienda Mágica"
-    territory = bosque
-  }
-  val tienda2 = Store().apply {
-    name = "Tienda Mágica"
-    territory = torre
-  }
-  val tienda3 = Store().apply {
-    name = "Tienda Mágica"
-    territory = desierto
-  }
-
-
-
 
   //***********************
   //USERS
@@ -144,7 +152,7 @@ class DataInitializer : InitializingBean {
     level = 2
     totalCapacity = 100
     balance = 250.0
-    currentLocacion = bosque
+    currentLocacion = torre
     role = IndividualRole.COMMON
     inventory = listOf(
       InventorySlot().apply {
@@ -171,7 +179,7 @@ class DataInitializer : InitializingBean {
     level = 3
     totalCapacity = 120
     balance = 300.0
-    currentLocacion = torre
+    currentLocacion = desierto
     role = IndividualRole.COMMON
     type = UserType.PLAYER
   }
@@ -212,10 +220,58 @@ class DataInitializer : InitializingBean {
     type = UserType.PLAYER
   }
 
+  //***********************
+  //HOUSES
+  //***********************
+
+  val house1 = House().apply {
+    name = "Casa de cris"
+    residents = listOf(cris)
+    inventory = listOf(bowSlot)
+    image = "aragorn_house.jpg"
+  }
+
+  val house2 = House().apply {
+    name = "Refugio de mati"
+    residents = listOf(mati)
+    inventory = listOf(ringSlot)
+    image = "legolas_house.jpg"
+  }
+
+  val house3 = House().apply {
+    name = "Casa de juana"
+    residents = listOf(juana)
+    inventory = listOf(pantrySlot)
+    image = "frodo_house.jpg"
+  }
+
+  val house4 = House().apply {
+    name = "Casa Comunal de la Comarca"
+    image = "comarca.jpg"
+  }
+
+  fun linkLocationsToTerritories() {
+    torre.subLocations = listOf(house1, house2)
+    desierto.subLocations = listOf(tienda3, tienda4, tienda5, house3)
+    bosque.subLocations = listOf(tienda, tienda2)
+  }
+
+  fun createHouses() {
+    houseRepository.apply {
+      create(house1)
+      create(house2)
+      create(house3)
+      create(house4)
+    }
+    println("casas agregadas")
+  }
   fun createItems() {
     itemRepository.apply {
       create(espadaMagica)
       create(escudoHierro)
+      create(bowSlot.item)
+      create(ringSlot.item)
+      create(pantrySlot.item)
     }
     println("items agregados")
   }
@@ -223,15 +279,12 @@ class DataInitializer : InitializingBean {
   fun createUsers() {
     userRepository.apply {
       create(valen)
-
     }
-
     println("usuarios agregados")
   }
 
   fun createIndividuals() {
     individualRepository.apply {
-
       create(cris)
       create(juana)
       create(mati)
@@ -253,14 +306,18 @@ class DataInitializer : InitializingBean {
       create(tienda)
       create(tienda2)
       create(tienda3)
+      create(tienda4)
+      create(tienda5)
     }
     println("tiendas agregadas")
   }
   override fun afterPropertiesSet() {
+    this.createStores()
+    this.createHouses()
+    this.linkLocationsToTerritories()
     this.createTerritories()
     this.createUsers()
     this.createIndividuals()
-    this.createStores()
     this.createItems()
   }
 }
