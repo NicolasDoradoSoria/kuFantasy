@@ -36,7 +36,7 @@ data class IndividualDTO(
         currentLocacion = individual.currentLocacion.name,
         role = individual.role.name,
         type = individual.type.name,
-        inventory = individual.inventory.map { InventorySlotDTO.from(it) } ?: emptyList()
+        inventory = individual.inventory.map { InventorySlotDTO.from(it) }
       )
     }
   }
