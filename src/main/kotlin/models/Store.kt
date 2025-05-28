@@ -1,18 +1,18 @@
 package ar.edu.unsam.phm.models
 
-class Store: Locacion {
+class Store: Place() {
+  lateinit var seller: Individual
+
   override lateinit var name: String
   override var id: Long = -1
-  lateinit var territory: Territory
+  override lateinit var image: String
+  override var inventory: List<InventorySlot> = listOf()
 
   override fun validate() {
-    if (name.isEmpty()) {
-      throw IllegalArgumentException("El nombre de la tienda no puede estar vacío")
-    }
-    if (territory.id == -1L) {
-      throw IllegalArgumentException("La tienda debe pertenecer a un territorio")
-    }
+    super.validate()
+
   }
 
+  fun isSellerPresent(someIndividual: Individual) : Boolean = seller == someIndividual
 
 }
