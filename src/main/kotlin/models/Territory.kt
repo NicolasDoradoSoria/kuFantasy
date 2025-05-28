@@ -6,7 +6,7 @@ class Territory : Locacion {
   override lateinit var name: String
   var subLocations: List<Locacion> = emptyList()
   lateinit var history: String
-  lateinit var image: String
+  override lateinit var image: String
 
 
   override fun validate() {
@@ -23,4 +23,8 @@ class Territory : Locacion {
       throw IllegalArgumentException("Image cannot be blank")
     }
   }
+
+  fun stores(): List<Store> = subLocations.filterIsInstance<Store>()
+  fun houses(): List<House> = subLocations.filterIsInstance<House>()
+
 }
