@@ -8,11 +8,6 @@ class Store: Place() {
   override lateinit var image: String
   override var inventory: List<InventorySlot> = listOf()
 
-  override fun validate() {
-    super.validate()
-
-  }
-
   fun isSellerPresent(someIndividual: Individual) : Boolean = seller == someIndividual
 
 }

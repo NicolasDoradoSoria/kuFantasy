@@ -7,8 +7,6 @@ class House : Place() {
   override lateinit var name: String
   override lateinit var image: String
   override var inventory: List<InventorySlot> = listOf()
-  override fun validate() {
-   super.validate()
 
-  }
+
 }
