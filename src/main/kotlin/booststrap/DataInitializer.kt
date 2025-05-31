@@ -4,10 +4,12 @@ import ar.edu.unsam.phm.dao.*
 import ar.edu.unsam.phm.models.*
 import ar.edu.unsam.phm.utils.IndividualRole
 import ar.edu.unsam.phm.utils.UserType
+
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
+import org.slf4j.LoggerFactory
 @Service
 class DataInitializer : InitializingBean {
 
@@ -28,6 +30,12 @@ class DataInitializer : InitializingBean {
 
   @Autowired
   private lateinit var houseRepository : HouseRepository
+
+  @Autowired
+  private lateinit var placeRepository: PlaceRepository
+
+  private val logger = LoggerFactory.getLogger(DataInitializer::class.java)
+
 
   //***********************
   // ITEM
@@ -86,6 +94,17 @@ class DataInitializer : InitializingBean {
     }
     quantity = 10
   }
+  val mesa = InventorySlot().apply {
+    item = Item().apply {
+      name = "mesa"
+      description = "mesa muy pesada"
+      weight = 2
+      price = 5.0
+      image = "pan.jpg"
+    }
+    quantity = 11
+  }
+
 
 
   //***********************
@@ -95,8 +114,9 @@ class DataInitializer : InitializingBean {
   val tienda = Store().apply {
     name = "Armeria"
     image = "legolas_house.jpg"
-
+    inventory= mutableListOf(mesa)
   }
+
   val tienda2 = Store().apply {
     name = "Carpinteria"
     image = "legolas_house.jpg"
@@ -113,6 +133,7 @@ class DataInitializer : InitializingBean {
     name = "Posada"
     image = "legolas_house.jpg"
   }
+
   //***********************
   // TERRITORY
   //***********************
@@ -154,7 +175,8 @@ class DataInitializer : InitializingBean {
     balance = 250.0
     currentLocacion = torre
     role = IndividualRole.COMMON
-    inventory = listOf(
+    type = UserType.PLAYER
+    inventory = mutableListOf(
       InventorySlot().apply {
         item = espadaMagica
         quantity = 1
@@ -257,13 +279,27 @@ class DataInitializer : InitializingBean {
   }
 
   fun createHouses() {
-    houseRepository.apply {
+    placeRepository.apply {
       create(house1)
       create(house2)
       create(house3)
       create(house4)
     }
-    println("casas agregadas")
+
+    logger.info("casas agregadas")
+  }
+  fun createStores() {
+
+    placeRepository.apply {
+      create(tienda)
+      create(tienda2)
+      create(tienda3)
+      create(tienda4)
+      create(tienda5)
+    }
+
+
+    logger.info("tiendas agregadas")
   }
   fun createItems() {
     itemRepository.apply {
@@ -272,15 +308,16 @@ class DataInitializer : InitializingBean {
       create(bowSlot.item)
       create(ringSlot.item)
       create(pantrySlot.item)
+      create(mesa.item)
     }
-    println("items agregados")
+    logger.info("items agregados")
   }
 
   fun createUsers() {
     userRepository.apply {
       create(valen)
     }
-    println("usuarios agregados")
+    logger.info("usuarios agregados")
   }
 
   fun createIndividuals() {
@@ -289,7 +326,7 @@ class DataInitializer : InitializingBean {
       create(juana)
       create(mati)
     }
-    println("individuos agregados")
+    logger.info("individuos agregados")
   }
 
   fun createTerritories() {
@@ -298,19 +335,9 @@ class DataInitializer : InitializingBean {
       create(desierto)
       create(bosque)
     }
-    println("territorios agregados")
+    logger.info("territorios agregados")
   }
 
-  fun createStores() {
-    storeRepository.apply {
-      create(tienda)
-      create(tienda2)
-      create(tienda3)
-      create(tienda4)
-      create(tienda5)
-    }
-    println("tiendas agregadas")
-  }
   override fun afterPropertiesSet() {
     this.createStores()
     this.createHouses()
