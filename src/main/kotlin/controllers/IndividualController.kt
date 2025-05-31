@@ -12,5 +12,5 @@ class IndividualController(
 ) {
 
      @GetMapping("/data/{idIndividual}")
-     fun getProfileIndividual(@PathVariable idIndividual: Long): IndividualDTO = IndividualDTO.toDTO(individualService.getProfileIndividual(idIndividual))
+     fun getProfileIndividual(@PathVariable idIndividual: Long): IndividualDTO = IndividualDTO.toDTO(individualService.getById(idIndividual))
 }
