@@ -19,7 +19,7 @@ open class Individual : Identifier {
   lateinit var currentLocacion: Territory
   lateinit var role: IndividualRole
   var type: UserType = UserType.PLAYER
-  var inventory: List<InventorySlot> = emptyList()
+  var inventory: MutableList<InventorySlot> = mutableListOf()
 
   override fun validate() {
     if (name.isBlank()) {
@@ -37,5 +37,15 @@ open class Individual : Identifier {
     if (!::role.isInitialized) {
       throw IllegalArgumentException("Role must be initialized")
     }
+  }
+
+  fun addItem(item: Item, quantity: Int = 1) {
+    val existing = inventory.find { it.item.id == item.id }
+    if (existing != null) {
+      existing.quantity += quantity
+    } else
+      inventory = inventory.toMutableList().apply { add(InventorySlot.create(item, quantity)) }
+
+
   }
 }
