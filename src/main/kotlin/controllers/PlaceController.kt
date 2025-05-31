@@ -13,5 +13,5 @@ class PlaceController(
   private val placeService: PlaceService
 ) {
   @PatchMapping("/pickup")
-  fun pickUpItemFromPlace(@RequestBody dto: TakeItemFromPlaceDTO) = placeService.pickUpProduct(dto)
+  fun pickUpItemFromPlace(@RequestBody dto: TakeItemFromPlaceDTO) = placeService.pickUpItem(dto)
 }
