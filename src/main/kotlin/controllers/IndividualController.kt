@@ -1,5 +1,6 @@
 package ar.edu.unsam.phm.controllers
 
+import ar.edu.unsam.phm.dto.BuyItemDTO
 import ar.edu.unsam.phm.dto.IndividualDTO
 import ar.edu.unsam.phm.service.IndividualService
 import org.springframework.web.bind.annotation.*
@@ -13,4 +14,7 @@ class IndividualController(
 
      @GetMapping("/data/{idIndividual}")
      fun getProfileIndividual(@PathVariable idIndividual: Long): IndividualDTO = IndividualDTO.toDTO(individualService.getById(idIndividual))
+
+     @PatchMapping("/buy")
+     fun buyItemFromStore(@RequestBody dto: BuyItemDTO) = individualService.buyItemFrom(dto)
 }
