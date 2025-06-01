@@ -58,9 +58,23 @@ class DataInitializer : InitializingBean {
     defense = 20
     image = "escudo.jpg"
   }
+
+  val casco= Item().apply {
+    name = "Casco de Hierro"
+    description = "Un casco resistente"
+    weight = 5
+    price = 50.0
+    defense = 10
+    image = "casco.jpg"
+  }
   //***********************
   // INVENTORY SLOTS
   //***********************
+
+  val cascoSlot = InventorySlot().apply {
+    item = casco
+    quantity = 1
+  }
   val bowSlot = InventorySlot().apply {
     item = Item().apply {
       name = "Arco Élfico"
@@ -241,7 +255,22 @@ class DataInitializer : InitializingBean {
     role = IndividualRole.COMMON
     type = UserType.PLAYER
   }
-
+  val albertoComerciante = Individual().apply {
+    name = "alberto"
+    defense = 1
+    life = 2
+    magic = 1
+    attack = 2
+    speed = 1
+    exp = 1
+    level = 1
+    totalCapacity = 110
+    balance = 1000.0
+    currentLocacion = desierto
+    role = IndividualRole.MERCHANT
+    type = UserType.NPC
+    inventory = mutableListOf(cascoSlot)
+  }
   //***********************
   //HOUSES
   //***********************
@@ -309,6 +338,7 @@ class DataInitializer : InitializingBean {
       create(ringSlot.item)
       create(pantrySlot.item)
       create(mesa.item)
+      create(cascoSlot.item)
     }
     logger.info("items agregados")
   }
@@ -325,6 +355,7 @@ class DataInitializer : InitializingBean {
       create(cris)
       create(juana)
       create(mati)
+      create(albertoComerciante)
     }
     logger.info("individuos agregados")
   }
