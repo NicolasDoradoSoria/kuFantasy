@@ -2,6 +2,7 @@ package ar.edu.unsam.phm.models
 
 import ar.edu.unsam.phm.utils.IndividualRole
 import ar.edu.unsam.phm.utils.UserType
+import ar.edu.unsam.phm.utils.exceptions.BusinessException
 
 open class Individual : Identifier {
 
@@ -45,7 +46,31 @@ open class Individual : Identifier {
       existing.quantity += quantity
     } else
       inventory = inventory.toMutableList().apply { add(InventorySlot.create(item, quantity)) }
+  }
 
+  fun buyItemFrom(seller: Individual, itemId: Long){
+    if (seller.role != IndividualRole.MERCHANT)
+      throw BusinessException("Solo se puede comprar a individuos con rol MERCHANT.")
 
+    if(this.currentLocacion != seller.currentLocacion)
+      throw BusinessException("No estás en la misma locación que el vendedor para comprar este ítem.")
+
+    val itemSlot = seller.inventory.find { it.item.id == itemId }
+      ?: throw BusinessException("El vendedor no tiene el ítem con id ${itemId} en su inventario.")
+
+    val item = itemSlot.item
+    val price = item.price
+
+    if(this.balance < price)
+      throw BusinessException("No tenés suficiente dinero para comprar el ítem con id ${itemId}.")
+
+    if(itemSlot.quantity == 1)
+      seller.inventory.remove(itemSlot)
+    else
+      itemSlot.quantity -= 1
+
+    this.addItem(item)
+    this.balance -= price
+    seller.balance += price
   }
 }
