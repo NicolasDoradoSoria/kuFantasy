@@ -9,6 +9,6 @@ class HouseService (
    val houseRepository: HouseRepository,
 ) {
    fun getById(houseId: Long) =
-      houseRepository.getById(houseId) ?: throw Exception("No existe una casa con el id de house: $houseId")
+      houseRepository.findById(houseId) ?: throw Exception("No existe una casa con el id de house: $houseId")
 
 }

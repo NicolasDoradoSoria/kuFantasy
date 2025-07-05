@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service
 class IndividualService(val individualRepository: IndividualRepository) {
 
 
-  fun getById(userId: Long) = individualRepository.getById(userId) ?: throw Exception("No existe un individuo con el id de individual: $userId")
-  fun update(individual: Individual) = individualRepository.update(individual)
+  fun getById(userId: Long) = individualRepository.findById(userId).orElseThrow{ throw Exception("No existe un individuo con el id de individual: $userId") }
+
+  fun update(individual: Individual) = individualRepository.save(individual)
 
   fun buyItemFrom(buyItemDTO: BuyItemDTO) {
     val buyer = this.getById(buyItemDTO.individualId)
