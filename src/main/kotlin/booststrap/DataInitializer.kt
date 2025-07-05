@@ -1,9 +1,9 @@
 package ar.edu.unsam.phm.booststrap
 
+import ar.edu.unsam.phm.booststrap.builders.*
 import ar.edu.unsam.phm.dao.*
 import ar.edu.unsam.phm.models.*
 import ar.edu.unsam.phm.utils.IndividualRole
-import ar.edu.unsam.phm.utils.UserType
 
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,119 +34,41 @@ class DataInitializer : InitializingBean {
   @Autowired
   private lateinit var placeRepository: PlaceRepository
 
+  @Autowired
+  private lateinit var inventorySlotRepository: InventorySlotRepository
+
   private val logger = LoggerFactory.getLogger(DataInitializer::class.java)
+
 
 
   //***********************
   // ITEM
   //***********************
+  lateinit var arcoItem: Item
+  lateinit var anilloItem: Item
+  lateinit var panItem: Item
+  lateinit var mesaItem: Item
+  lateinit var espadaMagicaItem: Item
+  lateinit var escudoHierro: Item
+  lateinit var cascoItem: Item
 
-  val espadaMagica = Item().apply {
-    name = "Espada Mágica"
-    description = "Una espada con poder arcano"
-    weight = 10
-    price = 150.0
-    attack = 25
-    image = "espada.jpg"
-  }
 
-  val escudoHierro = Item().apply {
-    name = "Escudo de Hierro"
-    description = "Un escudo resistente"
-    weight = 15
-    price = 100.0
-    defense = 20
-    image = "escudo.jpg"
-  }
 
-  val casco= Item().apply {
-    name = "Casco de Hierro"
-    description = "Un casco resistente"
-    weight = 5
-    price = 50.0
-    defense = 10
-    image = "casco.jpg"
-  }
   //***********************
   // INVENTORY SLOTS
   //***********************
-
-  val cascoSlot = InventorySlot().apply {
-    item = casco
-    quantity = 1
-  }
-  val bowSlot = InventorySlot().apply {
-    item = Item().apply {
-      name = "Arco Élfico"
-      description = "Arco preciso y liviano"
-      weight = 5
-      price = 120.0
-      attack = 15
-      image = "arco.jpg"
-    }
-    quantity = 1
-  }
-
-  val ringSlot = InventorySlot().apply {
-    item = Item().apply {
-      name = "Anillo de Invisibilidad"
-      description = "Te hace invisible por unos segundos"
-      weight = 1
-      price = 300.0
-      image = "anillo.jpg"
-    }
-    quantity = 1
-  }
-
-  val pantrySlot = InventorySlot().apply {
-    item = Item().apply {
-      name = "Pan de la Comarca"
-      description = "Muy nutritivo y sabroso"
-      weight = 2
-      price = 5.0
-      image = "pan.jpg"
-    }
-    quantity = 10
-  }
-  val mesa = InventorySlot().apply {
-    item = Item().apply {
-      name = "mesa"
-      description = "mesa muy pesada"
-      weight = 2
-      price = 5.0
-      image = "pan.jpg"
-    }
-    quantity = 11
-  }
 
 
 
   //***********************
   // Store
   //***********************
+  lateinit var tienda: Store
+  lateinit var tienda2: Store
+  lateinit var tienda3: Store
+  lateinit var tienda4: Store
+  lateinit var tienda5: Store
 
-  val tienda = Store().apply {
-    name = "Armeria"
-    image = "legolas_house.jpg"
-    inventory= mutableListOf(mesa)
-  }
-
-  val tienda2 = Store().apply {
-    name = "Carpinteria"
-    image = "legolas_house.jpg"
-  }
-  val tienda3 = Store().apply {
-    name = "Alquimia"
-    image = "legolas_house.jpg"
-  }
-  val tienda4 = Store().apply {
-    name = "Herreria"
-    image = "legolas_house.jpg"
-  }
-  val tienda5 = Store().apply {
-    name = "Posada"
-    image = "legolas_house.jpg"
-  }
 
   //***********************
   // TERRITORY
@@ -173,209 +95,227 @@ class DataInitializer : InitializingBean {
   //***********************
   //USERS
   //***********************
+  lateinit var albertoComerciante: Individual
+  lateinit var cris: Individual
+  lateinit var mati: Individual
+  lateinit var juana: Individual
+  lateinit var valen: User
 
-  val valen = User().apply {
-    mail = "valen@example.com"
-    password = "password"
-    name = "Valentino"
-    defense = 20
-    life = 100
-    magic = 50
-    attack = 30
-    speed = 10
-    exp = 150
-    level = 2
-    totalCapacity = 100
-    balance = 250.0
-    currentLocacion = torre
-    role = IndividualRole.COMMON
-    type = UserType.PLAYER
-    inventory = mutableListOf(
-      InventorySlot().apply {
-        item = espadaMagica
-        quantity = 1
-      },
-      InventorySlot().apply {
-        item = escudoHierro
-        quantity = 1
-      }
-    )
-  }
 
-  val cris = User().apply {
-    mail = "cris@example.com"
-    password = "password"
-    name = "Cristina"
-    defense = 15
-    life = 120
-    magic = 20
-    attack = 40
-    speed = 15
-    exp = 300
-    level = 3
-    totalCapacity = 120
-    balance = 300.0
-    currentLocacion = desierto
-    role = IndividualRole.COMMON
-    type = UserType.PLAYER
-  }
-
-  val mati = User().apply {
-    mail = "mati@example.com"
-    password = "admin123"
-    name = "Matías"
-    defense = 40
-    life = 200
-    magic = 80
-    attack = 70
-    speed = 20
-    exp = 800
-    level = 5
-    totalCapacity = 200
-    balance = 800.0
-    currentLocacion = desierto
-    role = IndividualRole.COMMON
-    type = UserType.PLAYER
-  }
-
-  val juana = User().apply {
-    mail = "juana@example.com"
-    password = "juana123"
-    name = "Juana"
-    defense = 25
-    life = 90
-    magic = 60
-    attack = 20
-    speed = 25
-    exp = 200
-    level = 2
-    totalCapacity = 110
-    balance = 190.0
-    currentLocacion = desierto
-    role = IndividualRole.COMMON
-    type = UserType.PLAYER
-  }
-  val albertoComerciante = Individual().apply {
-    name = "alberto"
-    defense = 1
-    life = 2
-    magic = 1
-    attack = 2
-    speed = 1
-    exp = 1
-    level = 1
-    totalCapacity = 110
-    balance = 1000.0
-    currentLocacion = desierto
-    role = IndividualRole.MERCHANT
-    type = UserType.NPC
-    inventory = mutableListOf(cascoSlot)
-  }
   //***********************
   //HOUSES
   //***********************
 
-  val house1 = House().apply {
-    name = "Casa de cris"
-    residents = listOf(cris)
-    inventory = listOf(bowSlot)
-    image = "aragorn_house.jpg"
-  }
-
-  val house2 = House().apply {
-    name = "Refugio de mati"
-    residents = listOf(mati)
-    inventory = listOf(ringSlot)
-    image = "legolas_house.jpg"
-  }
-
-  val house3 = House().apply {
-    name = "Casa de juana"
-    residents = listOf(juana)
-    inventory = listOf(pantrySlot)
-    image = "frodo_house.jpg"
-  }
-
-  val house4 = House().apply {
-    name = "Casa Comunal de la Comarca"
-    image = "comarca.jpg"
-  }
+  lateinit var house1: House
+  lateinit var house2: House
+  lateinit var house3: House
+  lateinit var house4: House
 
   fun linkLocationsToTerritories() {
-    torre.subLocations = listOf(house1, house2)
-    desierto.subLocations = listOf(tienda3, tienda4, tienda5, house3)
-    bosque.subLocations = listOf(tienda, tienda2)
+    torre.subLocations = mutableListOf(house1, house2)
+    desierto.subLocations = mutableListOf(tienda3, tienda4, tienda5, house3)
+    bosque.subLocations = mutableListOf(tienda, tienda2)
   }
 
   fun createHouses() {
-    placeRepository.apply {
-      create(house1)
-      create(house2)
-      create(house3)
-      create(house4)
-    }
+    house1 = HouseBuilder.buildMock(
+      name = "Casa de Cristian",
+      image = "aragorn_house.jpg",
+      residents = listOf(),
+      inventoryItems = listOf()
+    )
+    house2 = HouseBuilder.buildMock(
+      name = "Refugio de Matías",
+      image = "legolas_house.jpg",
+      residents = listOf(),
+      inventoryItems = listOf()
+    )
+    house3 = HouseBuilder.buildMock(
+      name = "Casa de Juana",
+      image = "frodo_house.jpg",
+      residents = listOf(),
+      inventoryItems = listOf()
+    )
+    house4 = HouseBuilder.buildMock(
+      name = "Casa Comunal de la Comarca",
+      image = "comarca.jpg",
+      residents = listOf(),
+      inventoryItems = listOf()
+    )
+
+
+    placeRepository.saveAll(listOf(house1, house2, house3, house4))
 
     logger.info("casas agregadas")
   }
   fun createStores() {
+    tienda = StoreBuilder.buildMock(
+      name = "Tienda de Armas",
+      seller = albertoComerciante,
+      image = "legolas_house.jpg",
+      inventoryItems = listOf(espadaMagicaItem to 1, escudoHierro to 1)
+    )
 
-    placeRepository.apply {
-      create(tienda)
-      create(tienda2)
-      create(tienda3)
-      create(tienda4)
-      create(tienda5)
-    }
+    tienda2 = StoreBuilder.buildMock(
+      name = "Tienda de Arcos",
+      seller = albertoComerciante,
+      image = "legolas_house.jpg",
+      inventoryItems = listOf(arcoItem to 1)
+    )
+    tienda3 = StoreBuilder.buildMock(
+      name = "Tienda de Anillos",
+      seller = albertoComerciante,
+      image = "legolas_house.jpg",
+      inventoryItems = listOf(anilloItem to 1)
+    )
+    tienda4 = StoreBuilder.buildMock(
+      name = "Tienda de Comida",
+      seller = albertoComerciante,
+      image = "legolas_house.jpg",
+      inventoryItems = listOf(panItem to 10)
+    )
+    tienda5 = StoreBuilder.buildMock(
+      name = "Tienda de Muebles",
+      seller = albertoComerciante,
+      image = "legolas_house.jpg",
+      inventoryItems = listOf(mesaItem to 5)
+    )
 
-
+    placeRepository.saveAll(listOf(tienda, tienda2, tienda3, tienda4, tienda5))
     logger.info("tiendas agregadas")
   }
   fun createItems() {
-    itemRepository.apply {
-      create(espadaMagica)
-      create(escudoHierro)
-      create(bowSlot.item)
-      create(ringSlot.item)
-      create(pantrySlot.item)
-      create(mesa.item)
-      create(cascoSlot.item)
-    }
-    logger.info("items agregados")
+
+    arcoItem = ItemBuilder.buildMock(
+      name = "Arco Élfico",
+      image = "arco.jpg",
+      description = "Arco preciso y liviano",
+      price = 120.0,
+      weight = 5
+    )
+    anilloItem = ItemBuilder.buildMock(
+      name = "Anillo de Invisibilidad",
+      image = "anillo.jpg",
+      description = "Te hace invisible por unos segundos",
+      price = 300.0,
+      weight = 1
+    )
+    panItem = ItemBuilder.buildMock(
+      name = "Pan de la Comarca",
+      image = "pan.jpg",
+      description = "Muy nutritivo y sabroso",
+      price = 5.0,
+      weight = 2
+    )
+    mesaItem = ItemBuilder.buildMock(
+      name = "Mesa",
+      image = "mesa.jpg",
+      description = "Mesa muy pesada",
+      price = 5.0,
+      weight = 2
+    )
+    espadaMagicaItem = ItemBuilder.buildMock(
+      name = "Espada Mágica",
+      image = "espada.jpg",
+      description = "Una espada con poder arcano",
+      price = 150.0,
+      weight = 10
+    )
+    escudoHierro = ItemBuilder.buildMock(
+      name = "Escudo de Hierro",
+      image = "escudo.jpg",
+      description = "Un escudo resistente",
+      price = 100.0,
+      weight = 15
+    )
+    cascoItem = ItemBuilder.buildMock(
+      name = "Casco de Hierro",
+      image = "casco.jpg",
+      description = "Un casco resistente",
+      price = 50.0,
+      weight = 5
+    )
+
+    itemRepository.saveAll(listOf(espadaMagicaItem, escudoHierro, cascoItem, arcoItem, anilloItem, panItem, mesaItem))
   }
 
   fun createUsers() {
-    userRepository.apply {
-      create(valen)
-    }
+    valen = UserBuilder.buildMock("valen", "valen@example.com", torre, inventoryItems = listOf(espadaMagicaItem to 1, escudoHierro to 1))
+    userRepository.saveAll(listOf(valen))
     logger.info("usuarios agregados")
   }
 
   fun createIndividuals() {
-    individualRepository.apply {
-      create(cris)
-      create(juana)
-      create(mati)
-      create(albertoComerciante)
-    }
+
+
+    val slotCasco = InventorySlot.create(cascoItem, 1)
+    val slotArco = InventorySlot.create(arcoItem, 1)
+    val slotAnillo = InventorySlot.create(anilloItem, 1)
+    val slotPan = InventorySlot.create(panItem, 10)
+    val slotEspada = InventorySlot.create(espadaMagicaItem, 1)
+    val slotEscudo = InventorySlot.create(escudoHierro, 1)
+    val slotPanItem = InventorySlot.create(panItem, 10)
+
+    albertoComerciante = IndividualBuilder.buildMock(
+      name = "Alberto",
+      role = IndividualRole.MERCHANT,
+      locacion = desierto,
+      inventorySlots = listOf(slotCasco),
+      balance = 1000.0
+    )
+    cris = IndividualBuilder.buildMock(
+      name = "Cristian",
+      role = IndividualRole.COMMON,
+      locacion = desierto,
+      inventorySlots = listOf(slotArco, slotAnillo, slotPan),
+      balance = 500.0
+    )
+    mati = IndividualBuilder.buildMock(
+        name = "Matías",
+        role = IndividualRole.COMMON,
+        locacion = desierto,
+        inventorySlots = listOf(slotEspada, slotEscudo),
+        balance = 800.0
+    )
+    juana = IndividualBuilder.buildMock(
+      name = "Juana",
+      role = IndividualRole.COMMON,
+      locacion = desierto,
+      inventorySlots = listOf(slotPanItem),
+      balance = 200.0
+    )
+
+    individualRepository.saveAll(listOf(albertoComerciante, cris, mati, juana))
+
+    //albertoComerciante.inventory.add(cascoSlot)
+    individualRepository.save(albertoComerciante)
     logger.info("individuos agregados")
   }
 
   fun createTerritories() {
-    territoryRepository.apply {
-      create(torre)
-      create(desierto)
-      create(bosque)
-    }
+    territoryRepository.saveAll(listOf(torre, desierto, bosque))
     logger.info("territorios agregados")
   }
 
+
+  private fun cleanDatabase() {
+    userRepository.deleteAll()
+    individualRepository.deleteAll()
+    inventorySlotRepository.deleteAll()
+    placeRepository.deleteAll()
+    itemRepository.deleteAll()
+    territoryRepository.deleteAll()
+  }
+
   override fun afterPropertiesSet() {
+    cleanDatabase()
+    this.createItems()
+    this.createTerritories()
+    this.createIndividuals()
+    this.createUsers()
     this.createStores()
     this.createHouses()
     this.linkLocationsToTerritories()
-    this.createTerritories()
-    this.createUsers()
-    this.createIndividuals()
-    this.createItems()
+
   }
 }
