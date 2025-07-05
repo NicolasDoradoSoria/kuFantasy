@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 class TerritoryService(
   val territoryRepository: TerritoryRepository
 ) {
-  fun getTerritories() =  territoryRepository.getAll()
+  fun getTerritories() =  territoryRepository.findAll().toList()
 
 
 }
