@@ -1,7 +1,8 @@
 package ar.edu.unsam.phm.dao
 
 import ar.edu.unsam.phm.models.Individual
-import org.springframework.stereotype.Component
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
 
-@Component
-class IndividualRepository : Repository<Individual>()
+@Repository
+interface IndividualRepository : CrudRepository<Individual, Long>

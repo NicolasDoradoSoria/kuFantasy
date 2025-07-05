@@ -1,9 +1,8 @@
 package ar.edu.unsam.phm.dao
 
 import ar.edu.unsam.phm.models.Territory
-import org.springframework.stereotype.Component
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
 
-@Component
-class TerritoryRepository : Repository<Territory>(){
-  fun getAll(): List<Territory> = elements.toList()
-}
+@Repository
+interface TerritoryRepository : CrudRepository<Territory, Long>

@@ -1,9 +1,10 @@
 package ar.edu.unsam.phm.dao
 
 import ar.edu.unsam.phm.models.User
-import org.springframework.stereotype.Component
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
 
-@Component
-class UserRepository : Repository<User>() {
-  fun findByMail(mail: String): User? = this.elements.find { it.mail == mail }
+@Repository
+interface UserRepository : CrudRepository<User, Long> {
+  fun findByMail(mail: String): User?
 }

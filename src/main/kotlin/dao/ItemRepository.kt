@@ -1,7 +1,8 @@
 package ar.edu.unsam.phm.dao
 
 import ar.edu.unsam.phm.models.Item
-import org.springframework.stereotype.Component
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
 
-@Component
-class ItemRepository : Repository<Item>()
+@Repository
+interface ItemRepository : CrudRepository<Item, Long>
