@@ -1,10 +1,13 @@
 package ar.edu.unsam.phm.models
 
-abstract class Place : Locacion {
-  abstract override  var id: Long
-  abstract override var name: String
-  abstract override var image: String
-  abstract var inventory: List<InventorySlot>
+import jakarta.persistence.*
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+abstract class Place : Locacion() {
+
+  @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+  open var inventory: MutableList<InventorySlot> = mutableListOf()
 
   override fun validate() {
     if (name.isBlank()) throw IllegalArgumentException("Name cannot be blank")

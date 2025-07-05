@@ -1,12 +1,17 @@
 package ar.edu.unsam.phm.models
 
+import jakarta.persistence.*
 
-class Territory : Locacion {
-  override var id: Long = -1
-  override lateinit var name: String
-  var subLocations: List<Locacion> = emptyList()
+
+@Entity
+class Territory : Locacion() {
+
+  @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+  @JoinColumn(name = "territory_id")
+  var subLocations: MutableList<Locacion> = mutableListOf()
+
+  @Column(nullable = false, columnDefinition = "TEXT")
   lateinit var history: String
-  override lateinit var image: String
 
 
   override fun validate() {

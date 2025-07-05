@@ -1,12 +1,17 @@
 package ar.edu.unsam.phm.models
 
-class Store: Place() {
-  lateinit var seller: Individual
+import jakarta.persistence.Entity
+import jakarta.persistence.FetchType
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.ManyToOne
 
-  override lateinit var name: String
-  override var id: Long = -1
-  override lateinit var image: String
-  override var inventory: List<InventorySlot> = listOf()
+
+@Entity
+class Store: Place() {
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "seller_id", nullable = false)
+  lateinit var seller: Individual
 
   fun isSellerPresent(someIndividual: Individual) : Boolean = seller == someIndividual
 

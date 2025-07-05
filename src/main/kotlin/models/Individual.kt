@@ -3,24 +3,37 @@ package ar.edu.unsam.phm.models
 import ar.edu.unsam.phm.utils.IndividualRole
 import ar.edu.unsam.phm.utils.UserType
 import ar.edu.unsam.phm.utils.exceptions.BusinessException
+import jakarta.persistence.*
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 open class Individual : Identifier {
 
-  override var id: Long = -1
-  lateinit var name: String
-  var defense: Int = 0
-  var life: Int = 0
-  var magic: Int = 0
-  var attack: Int = 0
-  var speed: Int = 0
-  var exp: Int = 0
-  var level: Int = 1
-  var totalCapacity: Int = 0
-  var balance: Double = 0.0
-  lateinit var currentLocacion: Territory
-  lateinit var role: IndividualRole
-  var type: UserType = UserType.PLAYER
-  var inventory: MutableList<InventorySlot> = mutableListOf()
+  @Id @GeneratedValue
+  override var id: Long = 0
+
+  open lateinit var name: String
+  open var defense: Int = 0
+  open var life: Int = 0
+  open var magic: Int = 0
+  open var attack: Int = 0
+  open var speed: Int = 0
+  open var exp: Int = 0
+  open var level: Int = 1
+  open var totalCapacity: Int = 0
+  open var balance: Double = 0.0
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  open lateinit var currentLocacion: Territory
+
+  @Enumerated(EnumType.STRING)
+  open lateinit var role: IndividualRole
+
+  @Enumerated(EnumType.STRING)
+  open var type: UserType = UserType.PLAYER
+
+  @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
+  open var inventory: MutableList<InventorySlot> = mutableListOf()
 
   override fun validate() {
     if (name.isBlank()) {
@@ -45,7 +58,7 @@ open class Individual : Identifier {
     if (existing != null) {
       existing.quantity += quantity
     } else
-      inventory = inventory.toMutableList().apply { add(InventorySlot.create(item, quantity)) }
+      inventory.add(InventorySlot.create(item, quantity))
   }
 
   fun buyItemFrom(seller: Individual, itemId: Long){
