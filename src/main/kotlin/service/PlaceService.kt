@@ -11,8 +11,8 @@ class PlaceService(
     private val placeRepository: PlaceRepository,
     private val individualService: IndividualService
 ) {
-  fun getById(placeId: Long): Place = placeRepository.getById(placeId) ?: throw Exception("No existe una casa con el id de place: $placeId")
-  fun update(place: Place) = placeRepository.update(place)
+  fun getById(placeId: Long): Place = placeRepository.findById(placeId).orElseThrow{throw Exception("No existe una casa con el id de place: $placeId")}
+  fun update(place: Place) = placeRepository.save(place)
 
   fun pickUpItem(takeItemFromPlaceDTO: TakeItemFromPlaceDTO) {
     val individual = individualService.getById(takeItemFromPlaceDTO.individualId)
