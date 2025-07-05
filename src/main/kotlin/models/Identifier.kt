@@ -3,6 +3,6 @@ package ar.edu.unsam.phm.models
 interface Identifier {
 
   var id: Long
-  fun validate()
-  fun isNew () = id == (-1).toLong()
+  abstract fun validate()
+  fun isNew (): Boolean = id == -1L
 }
