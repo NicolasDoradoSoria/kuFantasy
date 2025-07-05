@@ -1,0 +1,38 @@
+services:
+  img-viewer-server:
+    image: nginx:alpine
+    container_name: img-viewer-server
+    volumes:
+      - image-storage:/usr/share/nginx/html
+    ports:
+      - "9090:80"  # http://localhost:9090/img.jpg
+
+  db:
+    image: postgres:17-alpine
+    container_name: kufantasy_sql
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./docker/init_db.sh:/docker-entrypoint-initdb.d/01_init_db.sh
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: kufantasy_pgadmin4
+    restart: always
+    ports:
+      - "5055:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@phm.edu.ar
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  db:
+  pgadmin-data:
+  image-storage:
