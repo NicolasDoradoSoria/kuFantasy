@@ -1,0 +1,42 @@
+package ar.edu.unsam.phm.models
+
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
+import jakarta.persistence.JoinColumn
+import jakarta.persistence.OneToOne
+import java.time.LocalDateTime
+import java.util.*
+
+@Entity
+class Token: Identifier{
+
+  @Id @GeneratedValue
+  override var id: Long = 0
+
+  @OneToOne
+  @JoinColumn(nullable = false)
+  lateinit var user: User
+
+  @Column(name = "token")
+  lateinit var value: String
+
+  var expiryDate: LocalDateTime = LocalDateTime.now().plusMinutes(15)
+
+  override fun validate() {}
+
+  companion object {
+    fun createTokenEntity(user: User) =
+      Token().apply {
+        this.user = user
+        this.value = UUID.randomUUID().toString()
+      }
+
+    fun update(token: Token): Token =
+      token.apply {
+        this.expiryDate = LocalDateTime.now().plusMinutes(15)
+        this.value = UUID.randomUUID().toString()
+      }
+  }
+}
