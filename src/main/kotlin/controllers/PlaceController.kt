@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/place")
-@CrossOrigin("*")
-
 class PlaceController(
   private val placeService: PlaceService
 ) {
