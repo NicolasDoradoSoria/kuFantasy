@@ -13,6 +13,7 @@ open class Individual : Identifier {
   override var id: Long = 0
 
   open lateinit var name: String
+  open lateinit var lastName: String
   open var defense: Int = 0
   open var life: Int = 0
   open var magic: Int = 0

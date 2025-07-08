@@ -14,6 +14,7 @@ class IndividualBuilder {
       inventorySlots: List<InventorySlot> = listOf(), balance: Double = 100.0) : Individual {
       val individual = Individual().apply {
         this.name = name
+        this.lastName = "NPC"
         this.defense = 5
         this.life = 50
         this.magic = 5
