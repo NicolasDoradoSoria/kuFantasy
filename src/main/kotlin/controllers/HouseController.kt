@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/house")
-@CrossOrigin("*")
 class HouseController(
   val houseService: HouseService
 ) {

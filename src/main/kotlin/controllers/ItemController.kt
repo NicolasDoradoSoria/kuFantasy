@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/items")
-@CrossOrigin("*")
 class ItemController(
   val itemService: ItemService
 ) {

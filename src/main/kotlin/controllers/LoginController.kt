@@ -6,11 +6,9 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/login")
-@CrossOrigin("*")
-
 class LoginController (val loginService: LoginService) {
     @PostMapping("/")
-    fun loginCustomer(@RequestBody loginDTO: LoginDTO) =
+    fun login(@RequestBody loginDTO: LoginDTO) =
         loginService.login(loginDTO)
 
 }
