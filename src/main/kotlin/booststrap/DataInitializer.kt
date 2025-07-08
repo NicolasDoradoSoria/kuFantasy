@@ -13,33 +13,16 @@ import org.slf4j.LoggerFactory
 @Service
 class DataInitializer : InitializingBean {
 
-  @Autowired
-  private lateinit var userRepository: UserRepository
-
-  @Autowired
-  private lateinit var individualRepository: IndividualRepository
-
-  @Autowired
-  private lateinit var territoryRepository: TerritoryRepository
-
-  @Autowired
-  private lateinit var itemRepository: ItemRepository
-
-  @Autowired
-  private lateinit var storeRepository: StoreRepository
-
-  @Autowired
-  private lateinit var houseRepository : HouseRepository
-
-  @Autowired
-  private lateinit var placeRepository: PlaceRepository
-
-  @Autowired
-  private lateinit var inventorySlotRepository: InventorySlotRepository
+  @Autowired private lateinit var userRepository: UserRepository
+  @Autowired private lateinit var individualRepository: IndividualRepository
+  @Autowired private lateinit var territoryRepository: TerritoryRepository
+  @Autowired private lateinit var itemRepository: ItemRepository
+  @Autowired private lateinit var storeRepository: StoreRepository
+  @Autowired private lateinit var houseRepository : HouseRepository
+  @Autowired private lateinit var placeRepository: PlaceRepository
+  @Autowired private lateinit var inventorySlotRepository: InventorySlotRepository
 
   private val logger = LoggerFactory.getLogger(DataInitializer::class.java)
-
-
 
   //***********************
   // ITEM
@@ -300,6 +283,7 @@ class DataInitializer : InitializingBean {
 
   private fun cleanDatabase() {
     userRepository.deleteAll()
+    storeRepository.deleteAll()
     individualRepository.deleteAll()
     inventorySlotRepository.deleteAll()
     placeRepository.deleteAll()
