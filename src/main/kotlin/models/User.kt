@@ -3,6 +3,9 @@ package ar.edu.unsam.phm.models
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder
+import org.springframework.security.crypto.password.PasswordEncoder
+import java.time.LocalDate
 
 
 @Entity
@@ -15,5 +18,22 @@ class User: Individual(){
   @Column(nullable = false, length = 97)
   lateinit var password: String
 
-  fun verifyPassword(password: String): Boolean = this.password == password
+
+  @Column
+  var dateBirth: LocalDate? = null
+
+  fun verifyPassword(password: String): Boolean = getDefaultPasswordEncoder().matches(password, this.password)
+
+  private fun getDefaultPasswordEncoder(): PasswordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8()!!
+
+  private fun validateNewPassword(newPassword: String) {
+      val validPassword = newPassword.trim().length >= 6 && !(newPassword.trim().contains(" "))
+      if (!validPassword) {
+        throw IllegalArgumentException("La contraseña debe tener al menos 6 caracteres y no contener espacios.")
+      }
+    }
+  fun setNewPassword(newPassword: String) {
+    this.validateNewPassword(newPassword)
+    password = getDefaultPasswordEncoder().encode(newPassword)
+  }
 }
