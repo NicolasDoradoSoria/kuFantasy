@@ -1,3 +1,3 @@
 package ar.edu.unsam.phm.utils.exceptions
 
-class InvalidCredentialsException (msg: String = "Credenciales incorrectas.") : Exception(msg)
+data class InvalidCredentialsException (override val message : String = "Credenciales inválidas") : Exception(message)
