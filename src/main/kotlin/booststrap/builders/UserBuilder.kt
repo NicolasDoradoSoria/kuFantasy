@@ -15,7 +15,7 @@ class UserBuilder {
       return User().apply {
         this.name = name
         this.mail = mail
-        this.password = "password"
+        this.setNewPassword("password")
         this.defense = 10
         this.life = 100
         this.magic = 20
