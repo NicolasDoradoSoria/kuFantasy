@@ -28,6 +28,7 @@ class UserBuilder {
         this.currentLocacion = locacion
         this.role = IndividualRole.COMMON
         this.type = UserType.PLAYER
+        this.characterCreated = true
         this.inventory = inventoryItems.map { InventorySlot.create(it.first, it.second) }.toMutableList()
       }
     }
