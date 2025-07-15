@@ -59,11 +59,7 @@ class SecurityConfig {
 
         it.requestMatchers(HttpMethod.OPTIONS).permitAll()
 
-
-        it
-          .requestMatchers(HttpMethod.GET, "/items/**", "/individuals/**", "/territories/**", "/houses/**").permitAll()
-          .requestMatchers("/registration/confirm", "/recovery/**", "/expiredSession", "/error").permitAll()
-          .requestMatchers(HttpMethod.OPTIONS).permitAll()
+        it.requestMatchers(HttpMethod.GET, "/items/**", "/individuals/**", "/territories/**", "/houses/**").permitAll()
           .anyRequest().authenticated()
       }
       .httpBasic(
