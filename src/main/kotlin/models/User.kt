@@ -18,10 +18,7 @@ class User: Individual(){
   @Column(nullable = false, length = 97)
   lateinit var password: String
 
-
-  @Column
-  var dateBirth: LocalDate? = null
-
+  var characterCreated: Boolean = false
   fun verifyPassword(password: String): Boolean = getDefaultPasswordEncoder().matches(password, this.password)
 
   private fun getDefaultPasswordEncoder(): PasswordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8()!!
