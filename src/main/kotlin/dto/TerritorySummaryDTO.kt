@@ -10,7 +10,8 @@ data class TerritorySummaryDTO(
     val overview: String,
     val type: TerritoryType,
     val level: Int,
-    val difficulty: Difficulty
+    val difficulty: Difficulty,
+    val position: PositionDTO
 ) {
     companion object {
         fun from(territory: Territory): TerritorySummaryDTO =
@@ -20,7 +21,8 @@ data class TerritorySummaryDTO(
                 overview = territory.overview,
                 type = territory.type,
                 level = territory.level,
-                difficulty = territory.difficulty
+                difficulty = territory.difficulty,
+                position = PositionDTO(territory.top, territory.left)
             )
     }
 }

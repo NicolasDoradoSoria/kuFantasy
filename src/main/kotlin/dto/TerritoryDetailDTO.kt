@@ -13,7 +13,8 @@ data class TerritoryDetailDTO(
   val difficulty: Difficulty,
   val type: TerritoryType,
   val info: TerritoryInfoDTO?,
-  val resources: List<TerritoryResourceDTO>
+  val resources: List<TerritoryResourceDTO>,
+  val enemies: List<EnemyDTO>
 ){
   companion object {
     fun from (territory: Territory): TerritoryDetailDTO =
@@ -26,7 +27,8 @@ data class TerritoryDetailDTO(
         difficulty = territory.difficulty,
         type = territory.type,
         info = territory.info?.let { TerritoryInfoDTO.from(it) },
-        resources = territory.resources.map { TerritoryResourceDTO.from(it) }
+        resources = territory.resources.map { TerritoryResourceDTO.from(it) },
+        enemies = territory.enemies.map { EnemyDTO.from(it) }
       )
   }
 }
