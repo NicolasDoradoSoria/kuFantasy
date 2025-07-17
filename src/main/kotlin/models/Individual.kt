@@ -7,20 +7,12 @@ import jakarta.persistence.*
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-open class Individual : Identifier {
+open class Individual :Combatant(), Identifier {
 
   @Id @GeneratedValue
   override var id: Long = 0
-
-  open lateinit var name: String
   open lateinit var lastName: String
-  open var defense: Int = 0
-  open var life: Int = 0
-  open var magic: Int = 0
-  open var attack: Int = 0
-  open var speed: Int = 0
   open var exp: Int = 0
-  open var level: Int = 1
   open var totalCapacity: Int = 0
   open var balance: Double = 0.0
 
