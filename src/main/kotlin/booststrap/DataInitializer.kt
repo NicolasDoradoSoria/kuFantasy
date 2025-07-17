@@ -4,6 +4,9 @@ import ar.edu.unsam.phm.booststrap.builders.*
 import ar.edu.unsam.phm.dao.*
 import ar.edu.unsam.phm.models.*
 import ar.edu.unsam.phm.utils.IndividualRole
+import ar.edu.unsam.phm.utils.enums.Difficulty
+import ar.edu.unsam.phm.utils.enums.TerritoryFeature
+import ar.edu.unsam.phm.utils.enums.TerritoryType
 
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +24,7 @@ class DataInitializer : InitializingBean {
   @Autowired private lateinit var houseRepository : HouseRepository
   @Autowired private lateinit var placeRepository: PlaceRepository
   @Autowired private lateinit var inventorySlotRepository: InventorySlotRepository
+  @Autowired private lateinit var territoryResourceRepository: TerritoryResourceRepository
 
   private val logger = LoggerFactory.getLogger(DataInitializer::class.java)
 
@@ -34,13 +38,6 @@ class DataInitializer : InitializingBean {
   lateinit var espadaMagicaItem: Item
   lateinit var escudoHierro: Item
   lateinit var cascoItem: Item
-
-
-
-  //***********************
-  // INVENTORY SLOTS
-  //***********************
-
 
 
   //***********************
@@ -61,18 +58,30 @@ class DataInitializer : InitializingBean {
     name = "Bosque Encantado"
     history = "Un bosque misterioso lleno de magia."
     image = "bosque.jpg"
+    overview = "gran bosque encantado"
+    difficulty = Difficulty.MEDIUM
+    level = 5
+    type = TerritoryType.FOREST
   }
 
   val torre = Territory().apply {
     name = "Torre Arcana"
     history = "Una antigua torre de hechicería prohibida."
     image = "torre.jpg"
+    overview = "torre magica simple"
+    difficulty = Difficulty.HARD
+    level = 10
+    type = TerritoryType.TOWER
   }
 
   val desierto = Territory().apply {
     name = "Desierto del Olvido"
     history = "Nadie recuerda qué ocurrió aquí..."
     image = "desierto.jpg"
+    overview = "desierto con gran cantidad de arena blanca"
+    difficulty = Difficulty.EXTREME
+    level = 15
+    type = TerritoryType.DESERT
   }
 
   //***********************
@@ -228,9 +237,78 @@ class DataInitializer : InitializingBean {
     logger.info("usuarios agregados")
   }
 
+  fun createTerritoryInfos() {
+    val bosqueInfo = TerritoryInfo().apply {
+      shortDescription = "Un lugar magico donde lso arboles susurran."
+      longDescription = "EL Bosque esta encantado desde hace siglos. los elfos y criatiras misticas lo habitan."
+      features = listOf(TerritoryFeature.MAGIC_ZONE, TerritoryFeature.SAFE)
+      lore = "Durante la guerra antigua, el bosque protegio a los refugiados magicos."
+      territory = bosque
+    }
+
+    val torreInfo = TerritoryInfo().apply {
+      shortDescription = "Torre que irradia energía oscura."
+      longDescription = "Abandonada hace mil años, ahora vuelve a activarse lentamente..."
+      features = listOf(TerritoryFeature.MAGIC_ZONE, TerritoryFeature.TRADE_CENTER)
+      lore = "Lugar donde se selló al último archimago oscuro."
+      territory = torre
+    }
+
+    val desiertoInfo = TerritoryInfo().apply {
+      shortDescription = "Territorio olvidado por el tiempo."
+      longDescription = "El sol quema sin piedad y las dunas esconden secretos."
+      features = listOf(TerritoryFeature.DANGEROUS, TerritoryFeature.HISTORICAL_SITE)
+      lore = "Aquí se libró la batalla final entre humanos y demonios."
+      territory = desierto
+    }
+
+    bosque.info = bosqueInfo
+    torre.info = torreInfo
+    desierto.info = desiertoInfo
+  }
+
+  fun createTerritoryResource() {
+    val bosqueResources = listOf(
+      TerritoryResource().apply {
+        name = "Hierba magica"
+        rarity = 2
+        territory = bosque
+      },
+      TerritoryResource().apply {
+        name = "madera encantada"
+        rarity = 3
+        territory = bosque
+      }
+    )
+
+    val torreResources = listOf(
+      TerritoryResource().apply {
+        name = "Cristal arcano"
+        rarity = 5
+        territory = torre
+      }
+    )
+
+    val desiertoResources = listOf(
+      TerritoryResource().apply {
+        name = "Fragmento de obsidiana"
+        rarity = 4
+        territory = desierto
+      },
+      TerritoryResource().apply {
+        name = "Arena magica"
+        rarity = 1
+        territory = desierto
+      }
+    )
+
+    val allResources = bosqueResources+ bosqueResources + desiertoResources
+    territoryResourceRepository.saveAll(allResources)
+
+    logger.info("resources agregados")
+  }
+
   fun createIndividuals() {
-
-
     val slotCasco = InventorySlot.create(cascoItem, 1)
     val slotArco = InventorySlot.create(arcoItem, 1)
     val slotAnillo = InventorySlot.create(anilloItem, 1)
@@ -289,12 +367,15 @@ class DataInitializer : InitializingBean {
     placeRepository.deleteAll()
     itemRepository.deleteAll()
     territoryRepository.deleteAll()
+    territoryResourceRepository.deleteAll()
   }
 
   override fun afterPropertiesSet() {
     cleanDatabase()
     this.createItems()
+    createTerritoryInfos()
     this.createTerritories()
+    this.createTerritoryResource()
     this.createIndividuals()
     this.createUsers()
     this.createStores()
