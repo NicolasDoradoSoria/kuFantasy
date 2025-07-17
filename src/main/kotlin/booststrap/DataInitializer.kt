@@ -25,6 +25,8 @@ class DataInitializer : InitializingBean {
   @Autowired private lateinit var placeRepository: PlaceRepository
   @Autowired private lateinit var inventorySlotRepository: InventorySlotRepository
   @Autowired private lateinit var territoryResourceRepository: TerritoryResourceRepository
+  @Autowired private lateinit var territoryInfoRepository: TerritoryInfoRepository
+  @Autowired(required = false) private lateinit var enemyRepository: EnemyRepository
 
   private val logger = LoggerFactory.getLogger(DataInitializer::class.java)
 
@@ -62,6 +64,8 @@ class DataInitializer : InitializingBean {
     difficulty = Difficulty.MEDIUM
     level = 5
     type = TerritoryType.FOREST
+    left = "20%"
+    top = "60%"
   }
 
   val torre = Territory().apply {
@@ -72,6 +76,8 @@ class DataInitializer : InitializingBean {
     difficulty = Difficulty.HARD
     level = 10
     type = TerritoryType.TOWER
+    left = "30%"
+    top = "90%"
   }
 
   val desierto = Territory().apply {
@@ -82,6 +88,8 @@ class DataInitializer : InitializingBean {
     difficulty = Difficulty.EXTREME
     level = 15
     type = TerritoryType.DESERT
+    left = "90%"
+    top = "20%"
   }
 
   //***********************
@@ -265,9 +273,11 @@ class DataInitializer : InitializingBean {
     bosque.info = bosqueInfo
     torre.info = torreInfo
     desierto.info = desiertoInfo
+
+    territoryInfoRepository.saveAll(listOf(bosqueInfo, torreInfo, desiertoInfo))
   }
 
-  fun createTerritoryResource() {
+  fun createTerritoryResources() {
     val bosqueResources = listOf(
       TerritoryResource().apply {
         name = "Hierba magica"
@@ -302,8 +312,7 @@ class DataInitializer : InitializingBean {
       }
     )
 
-    val allResources = bosqueResources+ bosqueResources + desiertoResources
-    territoryResourceRepository.saveAll(allResources)
+    territoryResourceRepository.saveAll(bosqueResources + torreResources + desiertoResources)
 
     logger.info("resources agregados")
   }
@@ -358,6 +367,35 @@ class DataInitializer : InitializingBean {
     logger.info("territorios agregados")
   }
 
+  fun createEnemies() {
+    val orco = Enemy().apply {
+      type = "orc"
+      name = "Orco"
+      expReward = 50
+      territory = bosque
+      attack = 10
+      defense = 5
+      life = 30
+      speed = 3
+      level = 1
+    }
+
+    val espectro = Enemy().apply {
+      type = "ghost"
+      name = "Espectro"
+      expReward = 100
+      territory = torre
+      attack = 15
+      defense = 3
+      life = 40
+      speed = 6
+      level = 2
+    }
+    bosque.enemies.add(orco)
+    torre.enemies.add(espectro)
+
+    enemyRepository.saveAll(listOf(orco, espectro))
+  }
 
   private fun cleanDatabase() {
     userRepository.deleteAll()
@@ -367,15 +405,18 @@ class DataInitializer : InitializingBean {
     placeRepository.deleteAll()
     itemRepository.deleteAll()
     territoryRepository.deleteAll()
+    territoryInfoRepository.deleteAll()
     territoryResourceRepository.deleteAll()
+    if (::enemyRepository.isInitialized) enemyRepository.deleteAll()
   }
 
   override fun afterPropertiesSet() {
     cleanDatabase()
     this.createItems()
-    createTerritoryInfos()
     this.createTerritories()
-    this.createTerritoryResource()
+    this.createEnemies()
+    this.createTerritoryInfos()
+    this.createTerritoryResources()
     this.createIndividuals()
     this.createUsers()
     this.createStores()
