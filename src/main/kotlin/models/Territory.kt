@@ -1,5 +1,7 @@
 package ar.edu.unsam.phm.models
 
+import ar.edu.unsam.phm.utils.enums.Difficulty
+import ar.edu.unsam.phm.utils.enums.TerritoryType
 import jakarta.persistence.*
 
 
@@ -13,7 +15,36 @@ class Territory : Locacion() {
   @Column(nullable = false, columnDefinition = "TEXT")
   lateinit var history: String
 
+  @Column(nullable = false, columnDefinition = "TEXT")
+  lateinit var overview: String
 
+  var level: Int = 1
+
+  @Enumerated(EnumType.STRING)
+  lateinit var difficulty: Difficulty
+
+  @Enumerated(EnumType.STRING)
+  lateinit var type: TerritoryType
+
+  @OneToOne(mappedBy = "territory", cascade = [CascadeType.ALL])
+  var info: TerritoryInfo? = null
+
+  @OneToMany(mappedBy = "territory", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+  var resources: MutableList<TerritoryResource> = mutableListOf()
+
+  fun describe() : String {
+    return """
+      ${info?.shortDescription ?: "sin descripcion breve"}
+      
+      Historia: $history
+      
+      Descripcion: $overview
+      
+      Caracteristicas: ${info?.features?.joinToString(", ") ?: "No disponibles"}
+      
+      Lore: ${info?.lore ?: "No Disponible"}
+    """.trimIndent()
+  }
   override fun validate() {
     if (name.isBlank()) {
       throw IllegalArgumentException("Name cannot be blank")
