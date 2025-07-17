@@ -32,6 +32,16 @@ class Territory : Locacion() {
   @OneToMany(mappedBy = "territory", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
   var resources: MutableList<TerritoryResource> = mutableListOf()
 
+  @OneToMany(mappedBy = "territory", cascade = [CascadeType.ALL], orphanRemoval = true)
+  var enemies: MutableList<Enemy> = mutableListOf()
+
+  @Column(name = "pos_left", nullable = false)
+  lateinit var left : String
+
+  @Column(name = "pos_top", nullable = false)
+  lateinit var top : String
+
+
   fun describe() : String {
     return """
       ${info?.shortDescription ?: "sin descripcion breve"}
