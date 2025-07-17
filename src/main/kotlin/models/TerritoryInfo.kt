@@ -9,14 +9,6 @@ class TerritoryInfo : Identifier {
   @Id
   @GeneratedValue
   override var id: Long = 0
-  override fun validate() {
-    if (shortDescription.isBlank() || longDescription.isBlank()) {
-      throw IllegalArgumentException("Descriptions must not be blank")
-    }
-    if (lore.isBlank()) {
-      throw IllegalArgumentException("Lore is required")
-    }
-  }
 
   @Column(nullable = false, columnDefinition = "TEXT")
   lateinit var shortDescription: String
@@ -35,5 +27,13 @@ class TerritoryInfo : Identifier {
   @JoinColumn(name = "territory_id")
   lateinit var territory: Territory
 
+  override fun validate() {
+    if (shortDescription.isBlank() || longDescription.isBlank()) {
+      throw IllegalArgumentException("Descriptions must not be blank")
+    }
+    if (lore.isBlank()) {
+      throw IllegalArgumentException("Lore is required")
+    }
+  }
 
 }
