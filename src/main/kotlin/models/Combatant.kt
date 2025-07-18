@@ -5,17 +5,20 @@ import jakarta.persistence.Id
 import jakarta.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class Combatant : Identifier {
+open class Combatant : Identifier {
 
   @Id
   @GeneratedValue
   override var id: Long = 0
+  override fun validate() {
+    TODO("Not yet implemented")
+  }
 
   lateinit var name: String
-  var attack: Int = 0
-  var defense: Int = 0
-  var speed: Int = 0
-  var level: Int = 0
-  var life: Int = 0
-  var magic: Int = 0
+  open var attack: Int = 0
+  open var defense: Int = 0
+  open var speed: Int = 0
+  open var level: Int = 0
+  open var life: Int = 0
+  open var magic: Int = 0
 }
