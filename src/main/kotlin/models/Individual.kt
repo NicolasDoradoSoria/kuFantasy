@@ -28,6 +28,9 @@ open class Individual :Combatant(), Identifier {
   @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
   open var inventory: MutableList<InventorySlot> = mutableListOf()
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  lateinit var race: Race
+
   override fun validate() {
     if (name.isBlank()) {
       throw IllegalArgumentException("Name cannot be blank")
