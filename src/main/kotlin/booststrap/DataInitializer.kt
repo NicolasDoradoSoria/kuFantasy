@@ -26,7 +26,10 @@ class DataInitializer : InitializingBean {
   @Autowired private lateinit var inventorySlotRepository: InventorySlotRepository
   @Autowired private lateinit var territoryResourceRepository: TerritoryResourceRepository
   @Autowired private lateinit var territoryInfoRepository: TerritoryInfoRepository
+  @Autowired private lateinit var raceRepository: RaceRepository
+
   @Autowired(required = false) private lateinit var enemyRepository: EnemyRepository
+
 
   private val logger = LoggerFactory.getLogger(DataInitializer::class.java)
 
@@ -111,10 +114,106 @@ class DataInitializer : InitializingBean {
   lateinit var house3: House
   lateinit var house4: House
 
+  //***********************
+  //RACE
+  //***********************
+  lateinit var orc: Race
+  lateinit var elf: Race
+  lateinit var human: Race
+  lateinit var dwarf: Race
+  lateinit var gnome: Race
+
+
   fun linkLocationsToTerritories() {
     torre.subLocations = mutableListOf(house1, house2)
     desierto.subLocations = mutableListOf(tienda3, tienda4, tienda5, house3)
     bosque.subLocations = mutableListOf(tienda, tienda2)
+  }
+
+  fun createRace() {
+    orc = Race().apply {
+      name = "Orc"
+      description = "Strong but not very smart. High attack and life, low magic."
+      imageUrl = "/images/races/orc.png"
+      colorTheme = ColorTheme().apply {
+        primary = "#4E5F3D"
+        secondary = "#7A8F55"
+      }
+      attack = 80
+      defense = 60
+      speed = 40
+      magic = 10
+      life = 150
+      level = 1
+    }
+
+    elf = Race().apply {
+      name = "Elf"
+      description = "Graceful and intelligent. High magic and speed, low life."
+      imageUrl = "/images/races/elf.png"
+      colorTheme = ColorTheme().apply {
+        primary = "#A1E6C1"
+        secondary = "#2A6F52"
+      }
+      attack = 40
+      defense = 30
+      speed = 90
+      magic = 100
+      life = 80
+      level = 1
+    }
+
+    human = Race().apply {
+      name = "Human"
+      description = "Balanced race. Jack of all trades, master of none."
+      imageUrl = "/images/races/human.png"
+      colorTheme = ColorTheme().apply {
+        primary = "#F5D7B5"
+        secondary = "#A9744F"
+      }
+      attack = 60
+      defense = 60
+      speed = 60
+      magic = 60
+      life = 100
+      level = 1
+    }
+
+    dwarf = Race().apply {
+      name = "Dwarf"
+      description = "Sturdy and resistant. High defense and life, low speed."
+      imageUrl = "/images/races/dwarf.png"
+      colorTheme = ColorTheme().apply {
+        primary = "#B78C4D"
+        secondary = "#5D3A00"
+      }
+      attack = 50
+      defense = 90
+      speed = 30
+      magic = 40
+      life = 130
+      level = 1
+    }
+
+    gnome = Race().apply {
+      name = "Gnome"
+      description = "Clever and fast. High speed and magic, low attack."
+      imageUrl = "/images/races/gnome.png"
+      colorTheme = ColorTheme().apply {
+        primary = "#9E8FB2"
+        secondary = "#5C5270"
+      }
+      attack = 30
+      defense = 40
+      speed = 95
+      magic = 90
+      life = 70
+      level = 1
+    }
+
+    raceRepository.saveAll(listOf(orc, elf, human, dwarf, gnome))
+    logger.info("✅ Races initialized")
+
   }
 
   fun createHouses() {
@@ -146,7 +245,7 @@ class DataInitializer : InitializingBean {
 
     placeRepository.saveAll(listOf(house1, house2, house3, house4))
 
-    logger.info("casas agregadas")
+    logger.info("✅ casas agregadas")
   }
   fun createStores() {
     tienda = StoreBuilder.buildMock(
@@ -242,7 +341,7 @@ class DataInitializer : InitializingBean {
   fun createUsers() {
     valen = UserBuilder.buildMock("valen", "valen@example.com", torre, inventoryItems = listOf(espadaMagicaItem to 1, escudoHierro to 1))
     userRepository.saveAll(listOf(valen))
-    logger.info("usuarios agregados")
+    logger.info(" ✅usuarios agregados")
   }
 
   fun createTerritoryInfos() {
@@ -314,7 +413,7 @@ class DataInitializer : InitializingBean {
 
     territoryResourceRepository.saveAll(bosqueResources + torreResources + desiertoResources)
 
-    logger.info("resources agregados")
+    logger.info(" ✅ resources agregados")
   }
 
   fun createIndividuals() {
@@ -359,12 +458,12 @@ class DataInitializer : InitializingBean {
 
     //albertoComerciante.inventory.add(cascoSlot)
     individualRepository.save(albertoComerciante)
-    logger.info("individuos agregados")
+    logger.info("✅ individuos agregados")
   }
 
   fun createTerritories() {
     territoryRepository.saveAll(listOf(torre, desierto, bosque))
-    logger.info("territorios agregados")
+    logger.info("✅ territorios agregados")
   }
 
   fun createEnemies() {
