@@ -1,4 +1,18 @@
 services:
+
+  img-uploader-server:
+    build:
+      context: ./docker/img-uploader-server
+    container_name: img-uploader-server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - img-viewer-server
+      - db
+      - pgadmin
+    volumes:
+      - image-storage:/uploads
+
   img-viewer-server:
     image: nginx:alpine
     container_name: img-viewer-server
