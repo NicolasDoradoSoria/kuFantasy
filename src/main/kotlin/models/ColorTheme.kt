@@ -4,6 +4,7 @@ import jakarta.persistence.Embeddable
 
 @Embeddable
 class ColorTheme {
-  lateinit var primary: String
-  lateinit var secondary: String
+  lateinit var primaryColor: String
+  lateinit var secondaryColor: String
+  lateinit var bgColor: String
 }
