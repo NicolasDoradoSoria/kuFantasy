@@ -134,10 +134,11 @@ class DataInitializer : InitializingBean {
     orc = Race().apply {
       name = "Orc"
       description = "Strong but not very smart. High attack and life, low magic."
-      imageUrl = "/images/races/orc.png"
+      imageUrl = "http://localhost:9090/orco.jpg"
       colorTheme = ColorTheme().apply {
-        primary = "#4E5F3D"
-        secondary = "#7A8F55"
+        primaryColor = "#4E5F3D"
+        secondaryColor = "#7A8F55"
+        bgColor= "from-red-50 to-orange-50"
       }
       attack = 80
       defense = 60
@@ -150,10 +151,11 @@ class DataInitializer : InitializingBean {
     elf = Race().apply {
       name = "Elf"
       description = "Graceful and intelligent. High magic and speed, low life."
-      imageUrl = "/images/races/elf.png"
+      imageUrl = "http://localhost:9090/elfo.png"
       colorTheme = ColorTheme().apply {
-        primary = "#A1E6C1"
-        secondary = "#2A6F52"
+        primaryColor = "#A1E6C1"
+        secondaryColor = "#2A6F52"
+        bgColor = "from-green-50 to-emerald-50"
       }
       attack = 40
       defense = 30
@@ -166,10 +168,11 @@ class DataInitializer : InitializingBean {
     human = Race().apply {
       name = "Human"
       description = "Balanced race. Jack of all trades, master of none."
-      imageUrl = "/images/races/human.png"
+      imageUrl = "http://localhost:9090/human.jpg"
       colorTheme = ColorTheme().apply {
-        primary = "#F5D7B5"
-        secondary = "#A9744F"
+        primaryColor = "#F5D7B5"
+        secondaryColor = "#A9744F"
+        bgColor= "from-blue-50 to-indigo-50"
       }
       attack = 60
       defense = 60
@@ -182,10 +185,11 @@ class DataInitializer : InitializingBean {
     dwarf = Race().apply {
       name = "Dwarf"
       description = "Sturdy and resistant. High defense and life, low speed."
-      imageUrl = "/images/races/dwarf.png"
+      imageUrl = "http://localhost:9090/enano.png"
       colorTheme = ColorTheme().apply {
-        primary = "#B78C4D"
-        secondary = "#5D3A00"
+        primaryColor = "#B78C4D"
+        secondaryColor = "#5D3A00"
+        bgColor= "from-amber-50 to-yellow-50"
       }
       attack = 50
       defense = 90
@@ -198,10 +202,11 @@ class DataInitializer : InitializingBean {
     gnome = Race().apply {
       name = "Gnome"
       description = "Clever and fast. High speed and magic, low attack."
-      imageUrl = "/images/races/gnome.png"
+      imageUrl = "http://localhost:9090/ghomo.jpg"
       colorTheme = ColorTheme().apply {
-        primary = "#9E8FB2"
-        secondary = "#5C5270"
+        primaryColor = "#9E8FB2"
+        secondaryColor = "#5C5270"
+        bgColor= "from-purple-50 to-pink-50"
       }
       attack = 30
       defense = 40
@@ -517,6 +522,7 @@ class DataInitializer : InitializingBean {
     this.createTerritoryInfos()
     this.createTerritoryResources()
     this.createIndividuals()
+    this.createRace()
     this.createUsers()
     this.createStores()
     this.createHouses()
