@@ -29,7 +29,7 @@ open class Individual :Combatant(), Identifier {
   open var inventory: MutableList<InventorySlot> = mutableListOf()
 
   @ManyToOne(fetch = FetchType.LAZY)
-  lateinit var race: Race
+  var race: Race? = null
 
   override fun validate() {
     if (name.isBlank()) {
