@@ -8,8 +8,7 @@ import jakarta.persistence.*
 @Entity
 class Territory : Locacion() {
 
-  @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-  @JoinColumn(name = "territory_id")
+  @OneToMany(mappedBy = "parentLocation", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
   var subLocations: MutableList<Locacion> = mutableListOf()
 
   @Column(nullable = false, columnDefinition = "TEXT")
@@ -41,6 +40,10 @@ class Territory : Locacion() {
   @Column(name = "pos_top", nullable = false)
   lateinit var top : String
 
+  fun addSubLocation(loc: Locacion) {
+    loc.parentLocation = this
+    subLocations.add(loc)
+  }
 
   fun describe() : String {
     return """
