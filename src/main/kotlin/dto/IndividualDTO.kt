@@ -16,7 +16,8 @@ data class IndividualDTO(
   val currentLocacion: String,
   val role: String,
   val type: String,
-  val inventory: List<InventorySlotDTO>
+  val inventory: List<InventorySlotDTO>,
+  val race: RaceDTO? = null
 ) {
   companion object {
 
@@ -36,7 +37,8 @@ data class IndividualDTO(
         currentLocacion = individual.currentLocacion.name,
         role = individual.role.name,
         type = individual.type.name,
-        inventory = individual.inventory.map { InventorySlotDTO.from(it) }
+        inventory = individual.inventory.map { InventorySlotDTO.from(it) },
+        race = individual.race?.let { RaceDTO.from(it) }
       )
     }
   }
