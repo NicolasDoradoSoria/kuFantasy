@@ -22,4 +22,7 @@ class IndividualController(
 
      @PatchMapping("/buy")
      fun buyItemFromStore(@RequestBody dto: BuyItemDTO) = individualService.buyItemFrom(dto)
+
+     @PutMapping("/choose-race")
+     fun chooseRace(@ModelAttribute("currentUserId") currentUserId: Long, @RequestParam raceId: Long) = individualService.assignRaceToIndividual(raceId, currentUserId)
 }
