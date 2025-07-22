@@ -125,9 +125,11 @@ class DataInitializer : InitializingBean {
 
 
   fun linkLocationsToTerritories() {
-    torre.subLocations = mutableListOf(house1, house2)
-    desierto.subLocations = mutableListOf(tienda3, tienda4, tienda5, house3)
-    bosque.subLocations = mutableListOf(tienda, tienda2)
+    torre.addSubLocation(house1)
+    torre.addSubLocation(house2)
+    desierto.addSubLocation(tienda3)
+    desierto.addSubLocation(tienda4)
+    desierto.addSubLocation(tienda5)
   }
 
   fun createRace() {
@@ -226,25 +228,31 @@ class DataInitializer : InitializingBean {
       name = "Casa de Cristian",
       image = "aragorn_house.jpg",
       residents = listOf(),
-      inventoryItems = listOf()
+      inventoryItems = listOf(),
+      parent = desierto
     )
+
     house2 = HouseBuilder.buildMock(
       name = "Refugio de Matías",
       image = "legolas_house.jpg",
       residents = listOf(),
-      inventoryItems = listOf()
+      inventoryItems = listOf(),
+      parent = torre
     )
     house3 = HouseBuilder.buildMock(
       name = "Casa de Juana",
       image = "frodo_house.jpg",
       residents = listOf(),
-      inventoryItems = listOf()
+      inventoryItems = listOf(),
+      parent = torre
     )
     house4 = HouseBuilder.buildMock(
       name = "Casa Comunal de la Comarca",
       image = "comarca.jpg",
       residents = listOf(),
-      inventoryItems = listOf()
+      inventoryItems = listOf(),
+      parent = torre
+
     )
 
 
@@ -257,32 +265,37 @@ class DataInitializer : InitializingBean {
       name = "Tienda de Armas",
       seller = albertoComerciante,
       image = "legolas_house.jpg",
-      inventoryItems = listOf(espadaMagicaItem to 1, escudoHierro to 1)
+      inventoryItems = listOf(espadaMagicaItem to 1, escudoHierro to 1),
+      parent = torre
     )
 
     tienda2 = StoreBuilder.buildMock(
       name = "Tienda de Arcos",
       seller = albertoComerciante,
       image = "legolas_house.jpg",
-      inventoryItems = listOf(arcoItem to 1)
+      inventoryItems = listOf(arcoItem to 1),
+      parent = desierto
     )
     tienda3 = StoreBuilder.buildMock(
       name = "Tienda de Anillos",
       seller = albertoComerciante,
       image = "legolas_house.jpg",
-      inventoryItems = listOf(anilloItem to 1)
+      inventoryItems = listOf(anilloItem to 1),
+      parent = torre
     )
     tienda4 = StoreBuilder.buildMock(
       name = "Tienda de Comida",
       seller = albertoComerciante,
       image = "legolas_house.jpg",
-      inventoryItems = listOf(panItem to 10)
+      inventoryItems = listOf(panItem to 10),
+      parent = torre
     )
     tienda5 = StoreBuilder.buildMock(
       name = "Tienda de Muebles",
       seller = albertoComerciante,
       image = "legolas_house.jpg",
-      inventoryItems = listOf(mesaItem to 5)
+      inventoryItems = listOf(mesaItem to 5),
+      parent = desierto
     )
 
     placeRepository.saveAll(listOf(tienda, tienda2, tienda3, tienda4, tienda5))
@@ -512,6 +525,7 @@ class DataInitializer : InitializingBean {
     territoryInfoRepository.deleteAll()
     territoryResourceRepository.deleteAll()
     if (::enemyRepository.isInitialized) enemyRepository.deleteAll()
+    raceRepository.deleteAll()
   }
 
   override fun afterPropertiesSet() {
