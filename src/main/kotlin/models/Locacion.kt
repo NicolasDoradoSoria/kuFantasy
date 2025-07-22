@@ -2,7 +2,6 @@ package ar.edu.unsam.phm.models
 
 import jakarta.persistence.*
 
-
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "locacion_type")
@@ -17,4 +16,8 @@ abstract class Locacion : Identifier {
 
   @Column(nullable = false)
   open lateinit var image: String
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "parent_id")
+  open var parentLocation: Locacion? = null
 }
