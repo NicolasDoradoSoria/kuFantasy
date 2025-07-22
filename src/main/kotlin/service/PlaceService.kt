@@ -24,4 +24,8 @@ class PlaceService(
     this.update(place)
 
   }
+
+  fun getHouses(territoryId: Long) = placeRepository.findHousesByTerritoryId(territoryId)
+
+  fun getStores(territoryId: Long) = placeRepository.findStoresByTerritoryId(territoryId)
 }
