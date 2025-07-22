@@ -1,6 +1,7 @@
 package ar.edu.unsam.phm.controllers
 
 import ar.edu.unsam.phm.dto.TerritoryDetailDTO
+import ar.edu.unsam.phm.dto.TerritoryPreviewDTO
 import ar.edu.unsam.phm.dto.TerritorySummaryDTO
 import ar.edu.unsam.phm.service.TerritoryService
 import org.springframework.web.bind.annotation.*
@@ -14,7 +15,12 @@ class TerritoryController(
   fun getTerritories(): List<TerritorySummaryDTO> =
     territoryService.getTerritories().map{TerritorySummaryDTO.from(it) }
 
-  @GetMapping("/{id}")
-  fun getTerritory(@PathVariable id: Long) : TerritoryDetailDTO =
-    TerritoryDetailDTO.from(territoryService.getTerritoryById(id))
+  @GetMapping("/{id}/preview")
+  fun getTerritory(@PathVariable id: Long) : TerritoryPreviewDTO =
+    TerritoryPreviewDTO.from(territoryService.getTerritoryById(id))
+
+  @GetMapping("/{id}/full")
+  fun getTerritoryFull(@PathVariable id: Long): TerritoryDetailDTO =
+    territoryService.getTerritoryDetails(id)
+
 }
