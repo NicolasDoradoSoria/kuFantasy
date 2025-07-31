@@ -2,16 +2,15 @@ package ar.edu.unsam.phm.booststrap.builders
 
 import ar.edu.unsam.phm.models.Individual
 import ar.edu.unsam.phm.models.InventorySlot
-import ar.edu.unsam.phm.models.Item
 import ar.edu.unsam.phm.models.Territory
 import ar.edu.unsam.phm.utils.IndividualRole
-import ar.edu.unsam.phm.utils.UserType
+import ar.edu.unsam.phm.utils.enums.UserType
 
 class IndividualBuilder {
   companion object {
     fun buildMock (
       name: String = "NPC", role: IndividualRole = IndividualRole.MERCHANT, locacion: Territory,
-      inventorySlots: List<InventorySlot> = listOf(), balance: Double = 100.0) : Individual {
+      inventorySlots: List<InventorySlot> = listOf(), balance: Double = 100.0, imgUrl: String = "https://randomuser.me/api/portraits/men/32.jpg") : Individual {
       val individual = Individual().apply {
         this.name = name
         this.lastName = "NPC"
@@ -28,6 +27,7 @@ class IndividualBuilder {
         this.role = role
         this.type = UserType.NPC
         this.inventory = inventorySlots.toMutableList()
+        this.imageUrl = imgUrl
       }
 
       return individual
