@@ -3,7 +3,7 @@ package ar.edu.unsam.phm.service
 import ar.edu.unsam.phm.dao.IndividualRepository
 import ar.edu.unsam.phm.dto.BuyItemDTO
 import ar.edu.unsam.phm.models.*
-import ar.edu.unsam.phm.utils.UserType
+import ar.edu.unsam.phm.utils.enums.UserType
 import org.apache.coyote.BadRequestException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
