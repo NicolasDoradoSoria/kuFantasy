@@ -1,7 +1,7 @@
 package ar.edu.unsam.phm.dao
 
 import ar.edu.unsam.phm.models.Individual
-import ar.edu.unsam.phm.utils.UserType
+import ar.edu.unsam.phm.utils.enums.UserType
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
