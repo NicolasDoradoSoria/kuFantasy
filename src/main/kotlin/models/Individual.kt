@@ -1,7 +1,7 @@
 package ar.edu.unsam.phm.models
 
 import ar.edu.unsam.phm.utils.IndividualRole
-import ar.edu.unsam.phm.utils.UserType
+import ar.edu.unsam.phm.utils.enums.UserType
 import ar.edu.unsam.phm.utils.exceptions.BusinessException
 import jakarta.persistence.*
 
@@ -15,7 +15,7 @@ open class Individual :Combatant(), Identifier {
   open var exp: Int = 0
   open var totalCapacity: Int = 0
   open var balance: Double = 0.0
-
+  open lateinit var imageUrl: String
   @ManyToOne(fetch = FetchType.LAZY)
   open lateinit var currentLocacion: Territory
 
@@ -30,7 +30,6 @@ open class Individual :Combatant(), Identifier {
 
   @ManyToOne(fetch = FetchType.LAZY)
   var race: Race? = null
-
   override fun validate() {
     if (name.isBlank()) {
       throw IllegalArgumentException("Name cannot be blank")
