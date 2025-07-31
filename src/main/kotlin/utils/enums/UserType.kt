@@ -1,4 +1,4 @@
-package ar.edu.unsam.phm.utils
+package ar.edu.unsam.phm.utils.enums
 
 enum class UserType {
   PLAYER,
