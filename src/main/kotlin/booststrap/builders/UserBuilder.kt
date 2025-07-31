@@ -5,7 +5,7 @@ import ar.edu.unsam.phm.models.Item
 import ar.edu.unsam.phm.models.Territory
 import ar.edu.unsam.phm.models.User
 import ar.edu.unsam.phm.utils.IndividualRole
-import ar.edu.unsam.phm.utils.UserType
+import ar.edu.unsam.phm.utils.enums.UserType
 
 class UserBuilder {
 
