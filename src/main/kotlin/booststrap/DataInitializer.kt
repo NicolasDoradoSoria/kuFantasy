@@ -5,6 +5,7 @@ import ar.edu.unsam.phm.dao.*
 import ar.edu.unsam.phm.models.*
 import ar.edu.unsam.phm.utils.IndividualRole
 import ar.edu.unsam.phm.utils.enums.Difficulty
+import ar.edu.unsam.phm.utils.enums.StoreType
 import ar.edu.unsam.phm.utils.enums.TerritoryFeature
 import ar.edu.unsam.phm.utils.enums.TerritoryType
 
@@ -62,7 +63,7 @@ class DataInitializer : InitializingBean {
   val bosque = Territory().apply {
     name = "Bosque Encantado"
     history = "Un bosque misterioso lleno de magia."
-    image = "bosque.jpg"
+    image =  "http://localhost:9090/bosque.jpg"
     overview = "gran bosque encantado"
     difficulty = Difficulty.MEDIUM
     level = 5
@@ -86,7 +87,7 @@ class DataInitializer : InitializingBean {
   val desierto = Territory().apply {
     name = "Desierto del Olvido"
     history = "Nadie recuerda qué ocurrió aquí..."
-    image = "desierto.jpg"
+    image = "http://localhost:9090/pueblo_desierto.jpg"
     overview = "desierto con gran cantidad de arena blanca"
     difficulty = Difficulty.EXTREME
     level = 15
@@ -94,6 +95,44 @@ class DataInitializer : InitializingBean {
     left = "90%"
     top = "20%"
   }
+  val ciudad_enanos = Territory().apply {
+    name = "Ciudad de los Enanos"
+    history = "Tallada en la roca por generaciones de enanos orgullosos."
+    image = "http://localhost:9090/ciudad medieval.jpg"  // Imagen ya usada
+    overview = "Fortaleza subterránea con forjas encendidas"
+    difficulty = Difficulty.HARD
+    level = 12
+    type = TerritoryType.MOUNTAIN
+    left = "60%"
+    top = "30%"
+  }
+
+  val castillo_hielo = Territory().apply {
+    name = "Castillo de Hielo"
+    history = "Congelado en el tiempo, gobernado por una reina ancestral."
+    image = "http://localhost:9090/castillo.jpg"  // Imagen ya usada
+    overview = "Cristales de hielo relucen entre torres gélidas"
+    difficulty = Difficulty.EXTREME
+    level = 18
+    type = TerritoryType.TOWER
+    left = "80%"
+    top = "5%"
+  }
+
+  val ciudad_magica = Territory().apply {
+    name = "Ciudad de Cristal"
+    history = "Flotando en el aire, la ciudad alberga sabios arcanos."
+    image = "http://localhost:9090/pueblo_chico.jpg"  // Imagen ya usada
+    overview = "Cúpulas brillantes y calles levitantes"
+    difficulty = Difficulty.MEDIUM
+    level = 8
+    type = TerritoryType.TOWER
+    left = "40%"
+    top = "75%"
+  }
+
+
+
 
   //***********************
   //USERS
@@ -130,6 +169,9 @@ class DataInitializer : InitializingBean {
     desierto.addSubLocation(tienda3)
     desierto.addSubLocation(tienda4)
     desierto.addSubLocation(tienda5)
+    bosque.addSubLocation(tienda)
+    bosque.addSubLocation(tienda2)
+
   }
 
   fun createRace() {
@@ -262,40 +304,46 @@ class DataInitializer : InitializingBean {
   }
   fun createStores() {
     tienda = StoreBuilder.buildMock(
-      name = "Tienda de Armas",
+      name = "Armeria",
       seller = albertoComerciante,
       image = "legolas_house.jpg",
       inventoryItems = listOf(espadaMagicaItem to 1, escudoHierro to 1),
-      parent = torre
+      parent = torre,
+      type = StoreType.WEAPON_SHOP
     )
 
     tienda2 = StoreBuilder.buildMock(
-      name = "Tienda de Arcos",
+      name = "Arqueria",
       seller = albertoComerciante,
       image = "legolas_house.jpg",
       inventoryItems = listOf(arcoItem to 1),
-      parent = desierto
+      parent = desierto,
+      type = StoreType.FLETCHER
     )
+
     tienda3 = StoreBuilder.buildMock(
-      name = "Tienda de Anillos",
+      name = "Joyeria",
       seller = albertoComerciante,
       image = "legolas_house.jpg",
       inventoryItems = listOf(anilloItem to 1),
-      parent = torre
+      parent = torre,
+      type = StoreType.JEWELRY_SHOP
     )
     tienda4 = StoreBuilder.buildMock(
-      name = "Tienda de Comida",
+      name = "Mercado ",
       seller = albertoComerciante,
       image = "legolas_house.jpg",
       inventoryItems = listOf(panItem to 10),
-      parent = torre
+      parent = torre,
+      type = StoreType.FARMERS_MARKET
     )
     tienda5 = StoreBuilder.buildMock(
-      name = "Tienda de Muebles",
+      name = "Armeria",
       seller = albertoComerciante,
       image = "legolas_house.jpg",
       inventoryItems = listOf(mesaItem to 5),
-      parent = desierto
+      parent = desierto,
+      type = StoreType.BLACKSMITH
     )
 
     placeRepository.saveAll(listOf(tienda, tienda2, tienda3, tienda4, tienda5))
@@ -386,12 +434,38 @@ class DataInitializer : InitializingBean {
       lore = "Aquí se libró la batalla final entre humanos y demonios."
       territory = desierto
     }
+    val ciudadEnanosInfo = TerritoryInfo().apply {
+      shortDescription = "Ciudad robusta y subterránea."
+      longDescription = "Aquí se forjan las armas más resistentes. Los enanos no permiten intrusos."
+      features = listOf(TerritoryFeature.HISTORICAL_SITE, TerritoryFeature.SAFE)
+      lore = "Fundada tras el exilio de los clanes del norte."
+      territory = ciudad_enanos
+    }
+
+    val castilloHieloInfo = TerritoryInfo().apply {
+      shortDescription = "Un castillo atrapado en la era del hielo."
+      longDescription = "La Reina de Hielo nunca duerme. Se dice que su magia congela el tiempo."
+      features = listOf(TerritoryFeature.DANGEROUS, TerritoryFeature.MAGIC_ZONE)
+      lore = "En la cima de las montañas congeladas, reina sin oposición."
+      territory = castillo_hielo
+    }
+
+    val ciudadMagicaInfo = TerritoryInfo().apply {
+      shortDescription = "La capital de los arcanos."
+      longDescription = "Bibliotecas infinitas y torres que flotan. Hogar de los hechiceros más sabios."
+      features = listOf(TerritoryFeature.TRADE_CENTER, TerritoryFeature.MAGIC_ZONE)
+      lore = "Fundada por el primer Archimago tras la caída de los antiguos imperios."
+      territory = ciudad_magica
+    }
+
 
     bosque.info = bosqueInfo
     torre.info = torreInfo
     desierto.info = desiertoInfo
-
-    territoryInfoRepository.saveAll(listOf(bosqueInfo, torreInfo, desiertoInfo))
+    ciudad_enanos.info = ciudadEnanosInfo
+    castillo_hielo.info = castilloHieloInfo
+    ciudad_magica.info = ciudadMagicaInfo
+    territoryInfoRepository.saveAll(listOf(bosqueInfo, torreInfo, desiertoInfo, ciudadEnanosInfo, castilloHieloInfo, ciudadMagicaInfo))
   }
 
   fun createTerritoryResources() {
@@ -448,14 +522,17 @@ class DataInitializer : InitializingBean {
       role = IndividualRole.MERCHANT,
       locacion = desierto,
       inventorySlots = listOf(slotCasco),
-      balance = 1000.0
+      balance = 1000.0,
+      imgUrl = "https://randomuser.me/api/portraits/men/32.jpg"
+
     )
     cris = IndividualBuilder.buildMock(
       name = "Cristian",
       role = IndividualRole.COMMON,
       locacion = desierto,
       inventorySlots = listOf(slotArco, slotAnillo, slotPan),
-      balance = 500.0
+      balance = 500.0,
+      imgUrl= "https://randomuser.me/api/portraits/women/44.jpg"
     )
     mati = IndividualBuilder.buildMock(
         name = "Matías",
@@ -480,7 +557,7 @@ class DataInitializer : InitializingBean {
   }
 
   fun createTerritories() {
-    territoryRepository.saveAll(listOf(torre, desierto, bosque))
+    territoryRepository.saveAll(listOf(torre, desierto, bosque, ciudad_enanos, castillo_hielo, ciudad_magica))
     logger.info("✅ territorios agregados")
   }
 
